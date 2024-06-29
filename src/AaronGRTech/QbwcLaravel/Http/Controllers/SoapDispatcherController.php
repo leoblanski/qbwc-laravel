@@ -25,7 +25,7 @@ class SoapDispatcherController extends Controller
 
     public function handle()
     {
-        $server = new SoapServer(config('qbwc.soap.wsdl'), $this->options);
+        $server = app()->make(SoapServer::class);
         $server->setObject($this);
 
         ob_start();

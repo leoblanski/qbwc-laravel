@@ -5,6 +5,7 @@ namespace AaronGRTech\QbwcLaravel\Providers;
 use AaronGRTech\QbwcLaravel\Http\Controllers\SoapDispatcherController;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use SoapServer;
 
 class SoapServiceProvider extends ServiceProvider
 {
@@ -15,7 +16,14 @@ class SoapServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(SoapServer::class, function ($app) {
+            $options = [
+                'uri' => config('qbwc.routes.prefix'),
+                'classmap' => \AaronGRTech\QbwcLaravel\ClassMap::get(),
+            ];
+            $server = new SoapServer(config('qbwc.soap.wsdl'), $options);
+            return $server;
+        });
     }
 
     /**
