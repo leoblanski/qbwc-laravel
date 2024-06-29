@@ -27,14 +27,14 @@ class SoapController extends Controller
     {
         $server = new Server($this->options);
         $response = $server->serverVersion(new \AaronGRTech\QbwcLaravel\StructType\ServerVersion());
-        return response()->json($response);
+        return response($response, 200, ['Content-Type' => 'text/xml']);
     }
 
     public function clientVersion(Request $request)
     {
         $client = new Client($this->options);
         $response = $client->clientVersion(new \AaronGRTech\QbwcLaravel\StructType\ClientVersion());
-        return response()->json($response);
+        return response($response, 200, ['Content-Type' => 'text/xml']);
     }
 
     public function authenticate(Request $request)
@@ -46,20 +46,20 @@ class SoapController extends Controller
                 config('qbwc.admin.pass')
             )
         );
-        return response()->json($response);
+        return response($response, 200, ['Content-Type' => 'text/xml']);
     }
 
     public function sendRequestXML(Request $request)
     {
         $send = new Send($this->options);
         $response = $send->sendRequestXML(new \AaronGRTech\QbwcLaravel\StructType\SendRequestXML());
-        return response()->json($response);
+        return response($response, 200, ['Content-Type' => 'text/xml']);
     }
 
     public function receiveResponseXML(Request $request)
     {
         $receive = new Receive($this->options);
         $response = $receive->receiveResponseXML(new \AaronGRTech\QbwcLaravel\StructType\ReceiveResponseXML());
-        return response()->json($response);
+        return response($response, 200, ['Content-Type' => 'text/xml']);
     }
 }
