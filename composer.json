@@ -1,0 +1,16 @@
+{
+    "name": "aarongrtech/qbwc-laravel",
+    "description": "Package generated from storage/app/wsdl/QBWebConnectorSvc.wsdl using wsdltophp/packagegenerator",
+    "require": {
+        "php": ">=7.4",
+        "ext-dom": "*",
+        "ext-mbstring": "*",
+        "ext-soap": "*",
+        "wsdltophp/packagebase": "~5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "AaronGRTech\\QbwcLaravel\\": "./src/AaronGRTech/QbwcLaravel"
+        }
+    }
+}
