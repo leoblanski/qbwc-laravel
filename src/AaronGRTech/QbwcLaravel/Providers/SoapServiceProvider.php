@@ -2,7 +2,7 @@
 
 namespace AaronGRTech\QbwcLaravel\Providers;
 
-use AaronGRTech\QbwcLaravel\Http\Controllers\SoapDispatcherController;
+use AaronGRTech\QbwcLaravel\Http\Controllers\SoapController;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use SoapServer;
@@ -56,7 +56,7 @@ class SoapServiceProvider extends ServiceProvider
         Route::middleware([])
             ->prefix(config('qbwc.routes.prefix'))
             ->group(function () {
-                Route::post('/', [SoapDispatcherController::class, 'handle']);
+                Route::post('/', [SoapController::class, 'handle']);
             });
     }
 }
