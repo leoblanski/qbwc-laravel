@@ -103,6 +103,6 @@ class SoapController extends Controller
 
     private function generateTicket()
     {
-        $this->ticket = uniqid('ssc_qbwc_', true);
+        $this->ticket = uniqid(config('qbwc.soap.ticket_prefix'), true);
     }
 }
