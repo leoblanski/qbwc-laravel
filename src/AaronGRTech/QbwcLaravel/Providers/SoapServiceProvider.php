@@ -27,13 +27,13 @@ class SoapServiceProvider extends ServiceProvider
         $packageBaseDir = dirname(__DIR__, 2);
 
         $this->publishes([
-            $packageBaseDir . '/vendor/aarongrtech/qbwc-laravel/src/config/qbwc.php' => config_path('qbwc.php'),
+            $packageBaseDir . '/src/config/qbwc.php' => config_path('qbwc.php'),
         ], 'config');
 
         $this->registerRoutes();
 
         $this->publishes([
-            $packageBaseDir . '/vendor/aarongrtech/qbwc-laravel/src/wsdl/QBWebConnectorSvc.wsdl' => storage_path('app/wsdl/QBWebConnectorSvc.wsdl'),
+            $packageBaseDir . '/src/wsdl/QBWebConnectorSvc.wsdl' => storage_path('app/wsdl/QBWebConnectorSvc.wsdl'),
         ], 'wsdl');
     }
 
