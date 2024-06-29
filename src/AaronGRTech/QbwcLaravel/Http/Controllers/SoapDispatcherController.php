@@ -19,7 +19,7 @@ class SoapDispatcherController extends Controller
         ];
     }
 
-    public function handle(Request $request)
+    public function handle()
     {
         $server = new SoapServer(config('qbwc.soap.wsdl'), $this->options);
         $server->setObject(new SoapService());
