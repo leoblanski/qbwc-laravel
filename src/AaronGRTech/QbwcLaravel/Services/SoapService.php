@@ -18,6 +18,7 @@ class SoapService
         $this->options = [
             AbstractSoapClientBase::WSDL_URL => config('qbwc.soap.wsdl'),
             AbstractSoapClientBase::WSDL_CLASSMAP => \AaronGRTech\QbwcLaravel\ClassMap::get(),
+            AbstractSoapClientBase::WSDL_URI => config('qbwc.routes.prefix'),
         ];
     }
 
