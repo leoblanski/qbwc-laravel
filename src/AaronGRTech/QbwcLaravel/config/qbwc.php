@@ -1,10 +1,8 @@
 <?php
 
 return [
-    'admin' => [
-        'user' => env('QBWC_USER', 'Admin'),
-        'password' => env('QBWC_PASSWORD')
-    ],
+    'user' => env('QBWC_USER', 'Admin'),
+    'password' => env('QBWC_PASSWORD'),
     'soap' => [
         'ticket_prefix' => env('QBWC_TICKET_PREFIX', 'qbwc_'),
         'wsdl' => storage_path('app/wsdl/QBWebConnectorSvc.wsdl'),

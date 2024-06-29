@@ -59,8 +59,8 @@ class SoapController extends Controller
         ]);
 
         if (
-            $parameters->getStrUserName() == config('qbwc.admin.user') ||
-            $parameters->getStrPassword() == config('qbwc.admin.password')
+            $parameters->getStrUserName() == config('qbwc.user') ||
+            $parameters->getStrPassword() == config('qbwc.password')
         ) {
             $this->generateTicket();
 
