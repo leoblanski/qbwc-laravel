@@ -20,5 +20,12 @@
         "psr-4": {
             "AaronGRTech\\QbwcLaravel\\": "./src/AaronGRTech/QbwcLaravel"
         }
+    },
+    "extra": {
+    "laravel": {
+        "providers": [
+            "AaronGRTech\\QbwcLaravel\\Providers\\SoapServiceProvider"
+        ]
     }
+}
 }
