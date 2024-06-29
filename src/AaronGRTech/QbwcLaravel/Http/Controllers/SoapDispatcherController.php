@@ -3,23 +3,34 @@
 namespace AaronGRTech\QbwcLaravel\Http\Controllers;
 
 use AaronGRTech\QbwcLaravel\Services\SoapService;
+use AaronGRTech\QbwcLaravel\ServiceType\Authenticate;
+use AaronGRTech\QbwcLaravel\ServiceType\Client;
+use AaronGRTech\QbwcLaravel\ServiceType\Receive;
+use AaronGRTech\QbwcLaravel\ServiceType\Send;
+use AaronGRTech\QbwcLaravel\ServiceType\Server;
 use AaronGRTech\QbwcLaravel\StructType\ServerVersion;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use SoapServer;
+use WsdlToPhp\PackageBase\AbstractSoapClientBase;
 
 class SoapDispatcherController extends Controller
 {
     protected $options;
-    protected $soapService;
+    protected $clientOptions;
 
-    public function __construct(SoapService $soapService)
+    public function __construct()
     {
         $this->options = [
             'uri' => url(config('qbwc.routes.prefix')),
             'classmap' => \AaronGRTech\QbwcLaravel\ClassMap::get(),
         ];
-        $this->soapService = $soapService;
+
+        $this->clientOptions = [
+            AbstractSoapClientBase::WSDL_URL => config('qbwc.soap.wsdl'),
+            AbstractSoapClientBase::WSDL_CLASSMAP => \AaronGRTech\QbwcLaravel\ClassMap::get(),
+            AbstractSoapClientBase::WSDL_URI => config('qbwc.routes.prefix'),
+        ];
     }
 
 
@@ -38,6 +49,31 @@ class SoapDispatcherController extends Controller
     public function serverVersion($parameters)
     {
         $version = new ServerVersion();
-        return $this->soapService->serverVersion($version);
+        $server = new Server($this->clientOptions);
+        return $server->serverVersion($version);
+    }
+
+    public function clientVersion($parameters)
+    {
+        $client = new Client($this->options);
+        return $client->clientVersion($parameters);
+    }
+
+    public function authenticate($parameters)
+    {
+        $authenticate = new Authenticate($this->options);
+        return $authenticate->authenticate($parameters);
+    }
+
+    public function sendRequestXML($parameters)
+    {
+        $send = new Send($this->options);
+        return $send->sendRequestXML($parameters);
+    }
+
+    public function receiveResponseXML($parameters)
+    {
+        $receive = new Receive($this->options);
+        return $receive->receiveResponseXML($parameters);
     }
 }
