@@ -24,6 +24,8 @@ class Authenticate extends AbstractSoapClientBase
     public function authenticate(\AaronGRTech\QbwcLaravel\StructType\Authenticate $parameters)
     {
         try {
+            $this->setHttpHeader('Content-Type', 'text/xml; charset=utf-8');
+
             $this->setResult($resultAuthenticate = $this->getSoapClient()->__soapCall('authenticate', [
                 $parameters,
             ], [], [], $this->outputHeaders));
