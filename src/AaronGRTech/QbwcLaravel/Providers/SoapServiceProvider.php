@@ -25,13 +25,13 @@ class SoapServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/../Config/qbwc-laravel.php' => config_path('qbwc.php'),
+            '/Config/qbwc.php' => config_path('qbwc.php'),
         ], 'config');
 
         $this->registerRoutes();
 
         $this->publishes([
-            __DIR__.'/../wsdl/QBWebConnectorSvc.wsdl' => storage_path('app/wsdl/QBWebConnectorSvc.wsdl'),
+            '/wsdl/QBWebConnectorSvc.wsdl' => storage_path('app/wsdl/QBWebConnectorSvc.wsdl'),
         ]);
     }
 
