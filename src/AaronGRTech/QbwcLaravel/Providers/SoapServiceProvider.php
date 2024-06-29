@@ -53,7 +53,7 @@ class SoapServiceProvider extends ServiceProvider
      */
     protected function registerRoutes()
     {
-        Route::middleware(config('qbwc.routes.middleware'))
+        Route::middleware([])
             ->prefix(config('qbwc.routes.prefix'))
             ->group(function () {
                 Route::post('/', [SoapDispatcherController::class, 'handle']);
