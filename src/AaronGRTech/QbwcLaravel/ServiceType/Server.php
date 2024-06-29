@@ -23,17 +23,9 @@ class Server extends AbstractSoapClientBase
      */
     public function serverVersion(\AaronGRTech\QbwcLaravel\StructType\ServerVersion $parameters)
     {
-        try {
-            $this->setResult($resultServerVersion = $this->getSoapClient()->__soapCall('serverVersion', [
-                $parameters,
-            ], [], [], $this->outputHeaders));
+            $this->setResult($parameters);
         
-            return $resultServerVersion;
-        } catch (SoapFault $soapFault) {
-            $this->saveLastError(__METHOD__, $soapFault);
-        
-            return false;
-        }
+            return $parameters;
     }
     /**
      * Returns the result

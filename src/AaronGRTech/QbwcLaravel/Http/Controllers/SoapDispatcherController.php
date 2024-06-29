@@ -55,25 +55,25 @@ class SoapDispatcherController extends Controller
 
     public function clientVersion($parameters)
     {
-        $client = new Client($this->options);
+        $client = new Client($this->clientOptions);
         return $client->clientVersion($parameters);
     }
 
     public function authenticate($parameters)
     {
-        $authenticate = new Authenticate($this->options);
+        $authenticate = new Authenticate($this->clientOptions);
         return $authenticate->authenticate($parameters);
     }
 
     public function sendRequestXML($parameters)
     {
-        $send = new Send($this->options);
+        $send = new Send($this->clientOptions);
         return $send->sendRequestXML($parameters);
     }
 
     public function receiveResponseXML($parameters)
     {
-        $receive = new Receive($this->options);
+        $receive = new Receive($this->clientOptions);
         return $receive->receiveResponseXML($parameters);
     }
 }
