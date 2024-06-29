@@ -47,6 +47,7 @@ class SoapServiceProvider extends ServiceProvider
         Route::middleware(config('qbwc.routes.middleware'))
             ->prefix(config('qbwc.routes.prefix'))
             ->group(function () {
+                Route::post('/', 'AaronGRTech\QbwcLaravel\Http\Controllers\SoapController@__construct');
                 Route::post('/serverVersion', 'AaronGRTech\QbwcLaravel\Http\Controllers\SoapController@serverVersion');
                 Route::post('/clientVersion', 'AaronGRTech\QbwcLaravel\Http\Controllers\SoapController@clientVersion');
                 Route::post('/authenticate', 'AaronGRTech\QbwcLaravel\Http\Controllers\SoapController@authenticate');
