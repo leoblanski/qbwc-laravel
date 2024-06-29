@@ -30,7 +30,7 @@ class ServerVersion extends AbstractStructBase
     public function __construct(?string $strVersion = null)
     {
         $this
-            ->setStrVersion($strVersion);
+            ->setStrVersion($strVersion ?? config('qbwc.soap.version'));
     }
     /**
      * Get strVersion value
