@@ -39,7 +39,12 @@ class SoapController extends Controller
     public function authenticate(Request $request)
     {
         $authenticate = new Authenticate($this->options);
-        $response = $authenticate->authenticate(new \AaronGRTech\QbwcLaravel\StructType\Authenticate());
+        $response = $authenticate->authenticate(
+            new \AaronGRTech\QbwcLaravel\StructType\Authenticate(
+                config('qbwc-laravel.admin.user'),
+                config('qbwc-laravel.admin.pass')
+            )
+        );
         return response()->json($response);
     }
 

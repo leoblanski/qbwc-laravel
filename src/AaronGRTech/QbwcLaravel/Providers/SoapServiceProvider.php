@@ -24,6 +24,10 @@ class SoapServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->publishes([
+            __DIR__ . '/../config/mypackage.php' => config_path('mypackage.php'),
+        ], 'config');
+
         $this->registerRoutes();
 
         $this->publishes([
@@ -38,8 +42,8 @@ class SoapServiceProvider extends ServiceProvider
      */
     protected function registerRoutes()
     {
-        Route::middleware('api')
-            ->prefix('soap')
+        Route::middleware(config('qbwc-laravel.routes.middleware'))
+            ->prefix(config('qbwc-laravel.routes.prefix'))
             ->group(function () {
                 Route::post('/serverVersion', 'AaronGRTech\QbwcLaravel\Http\Controllers\SoapController@serverVersion');
                 Route::post('/clientVersion', 'AaronGRTech\QbwcLaravel\Http\Controllers\SoapController@clientVersion');
