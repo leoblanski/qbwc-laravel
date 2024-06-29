@@ -1,6 +1,14 @@
 {
     "name": "aarongrtech/qbwc-laravel",
-    "description": "Package generated from storage/app/wsdl/QBWebConnectorSvc.wsdl using wsdltophp/packagegenerator",
+    "description": "Laravel-flavored QuickBooks Web Connector package",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "AaronGRTech",
+            "email": "aaron@goldenruleweb.com"
+        }
+    ],
     "require": {
         "php": ">=7.4",
         "ext-dom": "*",
