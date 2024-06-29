@@ -33,7 +33,9 @@ abstract class AbstractSoapClientBase implements SoapClientInterface
      * Contains output headers
      * @var array
      */
-    protected array $outputHeaders = [];
+    protected array $outputHeaders = [
+        'Content-Type' => 'text/xml; charset=utf-8',
+    ];
 
     public function __construct(array $wsdlOptions = [])
     {
