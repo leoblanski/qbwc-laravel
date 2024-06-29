@@ -7,6 +7,7 @@ use AaronGRTech\QbwcLaravel\ServiceType\Client;
 use AaronGRTech\QbwcLaravel\ServiceType\Authenticate;
 use AaronGRTech\QbwcLaravel\ServiceType\Send;
 use AaronGRTech\QbwcLaravel\ServiceType\Receive;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use WsdlToPhp\PackageBase\AbstractSoapClientBase;
 
