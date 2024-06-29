@@ -14,9 +14,7 @@ class SoapServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(
-            __DIR__ . '/../../../config/qbwc.php', 'qbwc'
-        );
+        //
     }
 
     /**
@@ -26,15 +24,17 @@ class SoapServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $packageBaseDir = dirname(__DIR__, 2);
+
         $this->publishes([
-            __DIR__ . '/../../../config/qbwc.php' => config_path('qbwc.php'),
+            $packageBaseDir . '/config/qbwc.php' => config_path('qbwc.php'),
         ], 'config');
 
         $this->registerRoutes();
 
         $this->publishes([
-            __DIR__ . '/../../../resources/wsdl/QBWebConnectorSvc.wsdl' => storage_path('app/wsdl/QBWebConnectorSvc.wsdl'),
-        ]);
+            $packageBaseDir . '/resources/wsdl/QBWebConnectorSvc.wsdl' => storage_path('app/wsdl/QBWebConnectorSvc.wsdl'),
+        ], 'wsdl');
     }
 
     /**
