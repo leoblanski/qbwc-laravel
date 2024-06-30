@@ -50,9 +50,7 @@ class QbxmlQuery extends AbstractStructBase
             $qbXML->appendChild($responseElement);
         }
 
-        $responseXml = $xml->saveXML();
-
-        return '<![CDATA[' . $responseXml . ']]>';
+        return $xml->saveXML();
     }
 
     public function addToQueue()

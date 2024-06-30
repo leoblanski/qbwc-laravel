@@ -19,12 +19,14 @@ use SoapServer;
 class SoapController extends Controller
 {
     protected $queryQueue;
+    protected $initialQueueSize;
     protected $options;
     protected $ticket;
 
     public function __construct(QbQueryQueue $queryQueue)
     {
         $this->queryQueue = $queryQueue;
+        $this->initialQueueSize = $this->queryQueue->queriesLeft();
         $this->options = [
             'uri' => url(config('qbwc.routes.prefix')),
             'classmap' => \AaronGRTech\QbwcLaravel\ClassMap::get(),
@@ -83,7 +85,7 @@ class SoapController extends Controller
             $query = $this->queryQueue->popQuery();
         }
 
-        return new SendRequestXMLResponse($query);
+        return new SendRequestXMLResponse($query->toQbxml());
     }
 
     public function receiveResponseXML($parameters)
@@ -101,7 +103,13 @@ class SoapController extends Controller
             $callback->handleResponse($parsedData);
         }
 
-        return new ReceiveResponseXMLResponse();
+        $percentComplete = 100;
+
+        if ($this->queryQueue->hasQueries()) {
+            $percentComplete = 100 - (($this->queryQueue->queriesLeft() / $this->initialQueueSize) * 100);
+        }
+
+        return new ReceiveResponseXMLResponse($percentComplete);
     }
 
     public function connectionError($parameters)

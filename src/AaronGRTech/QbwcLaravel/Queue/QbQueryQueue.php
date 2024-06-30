@@ -33,4 +33,9 @@ class QbQueryQueue
     {
         return !empty($this->queries);
     }
+
+    public function queriesLeft()
+    {
+        return count($this->queries);
+    }
 }
