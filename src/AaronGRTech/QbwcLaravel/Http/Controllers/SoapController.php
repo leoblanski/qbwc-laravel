@@ -95,12 +95,13 @@ class SoapController extends Controller
         // $message = $parameters->getMessage();
 
         $parsedData = $this->parseResponseXML($responseXML);
+        $response = $parsedData->QBXMLMsgsRs;
 
-        $callbackClass = $this->getCallbackClass($parsedData);
+        $callbackClass = $this->getCallbackClass($response);
 
         if ($callbackClass && class_exists($callbackClass)) {
             $callback = new $callbackClass();
-            $callback->handleResponse($parsedData);
+            $callback->handleResponse($response);
         }
 
         $percentComplete = 100;
@@ -143,7 +144,7 @@ class SoapController extends Controller
 
     private function getCallbackClass($data)
     {
-        if (isset($data->Invoice)) {
+        if (isset($data->InvoiceQueryRs)) {
             return \App\Callbacks\InvoiceCallback::class;
         }
 
