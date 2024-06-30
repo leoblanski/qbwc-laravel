@@ -116,7 +116,7 @@ After installing this package, please update your application's `composer.json` 
         }
     }
 }
-
+```
 ## Requirements
 
 - PHP >= 7.4
