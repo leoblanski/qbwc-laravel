@@ -84,6 +84,19 @@ class SoapController extends Controller
 
     public function receiveResponseXML($parameters)
     {
+        $responseXML = $parameters->getResponse();
+        // $hresult = $parameters->getHresult();
+        // $message = $parameters->getMessage();
+
+        $parsedData = $this->parseResponseXML($responseXML);
+
+        $callbackClass = $this->getCallbackClass($parsedData);
+
+        if ($callbackClass && class_exists($callbackClass)) {
+            $callback = new $callbackClass();
+            $callback->handleResponse($parsedData);
+        }
+
         return new ReceiveResponseXMLResponse();
     }
 
@@ -118,5 +131,20 @@ class SoapController extends Controller
         } else {
             return response()->json(['status' => 'No queries in the queue']);
         }
+    }
+
+    private function parseResponseXML($xml)
+    {
+        return simplexml_load_string($xml);
+    }
+
+    private function getCallbackClass($data)
+    {
+        if (isset($data->Invoice)) {
+            return \App\Callbacks\InvoiceCallback::class;
+        }
+
+        // Add more conditions as needed for other types
+        return null;
     }
 }
