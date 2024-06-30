@@ -2,7 +2,7 @@
 
 namespace AaronGRTech\QbwcLaravel\StructType\Queries;
 
-class EstimateAddQuery extends QbmxlQuery
+class EstimateAddQuery extends QbxmlQuery
 {
     protected function getQueryElement()
     {

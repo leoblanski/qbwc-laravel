@@ -2,7 +2,7 @@
 
 namespace AaronGRTech\QbwcLaravel\StructType\Queries;
 
-class JournalEntryAddQuery extends QbmxlQuery
+class JournalEntryAddQuery extends QbxmlQuery
 {
     protected function getQueryElement()
     {

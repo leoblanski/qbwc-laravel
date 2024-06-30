@@ -2,7 +2,7 @@
 
 namespace AaronGRTech\QbwcLaravel\StructType\Queries;
 
-class AccountQuery extends QbmxlQuery
+class AccountQuery extends QbxmlQuery
 {
     protected function getQueryElement()
     {

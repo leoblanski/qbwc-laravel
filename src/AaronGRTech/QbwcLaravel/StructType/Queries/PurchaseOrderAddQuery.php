@@ -2,7 +2,7 @@
 
 namespace AaronGRTech\QbwcLaravel\StructType\Queries;
 
-class PurchaseOrderAddQuery extends QbmxlQuery
+class PurchaseOrderAddQuery extends QbxmlQuery
 {
     protected function getQueryElement()
     {

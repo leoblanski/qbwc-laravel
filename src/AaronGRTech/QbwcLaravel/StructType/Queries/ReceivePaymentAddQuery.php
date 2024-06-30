@@ -2,7 +2,7 @@
 
 namespace AaronGRTech\QbwcLaravel\StructType\Queries;
 
-class ReceivePaymentAddQuery extends QbmxlQuery
+class ReceivePaymentAddQuery extends QbxmlQuery
 {
     protected function getQueryElement()
     {

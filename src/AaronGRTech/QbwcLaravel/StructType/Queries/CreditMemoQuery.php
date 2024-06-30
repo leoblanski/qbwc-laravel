@@ -2,7 +2,7 @@
 
 namespace AaronGRTech\QbwcLaravel\StructType\Queries;
 
-class CreditMemoQuery extends QbmxlQuery
+class CreditMemoQuery extends QbxmlQuery
 {
     protected function getQueryElement()
     {

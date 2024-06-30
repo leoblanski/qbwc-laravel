@@ -2,7 +2,7 @@
 
 namespace AaronGRTech\QbwcLaravel\StructType\Queries;
 
-class SalesReceiptAddQuery extends QbmxlQuery
+class SalesReceiptAddQuery extends QbxmlQuery
 {
     protected function getQueryElement()
     {

@@ -2,7 +2,7 @@
 
 namespace AaronGRTech\QbwcLaravel\StructType\Queries;
 
-class VendorAddQuery extends QbmxlQuery
+class VendorAddQuery extends QbxmlQuery
 {
     protected function getQueryElement()
     {
