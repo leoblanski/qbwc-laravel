@@ -9,7 +9,6 @@ use AaronGRTech\QbwcLaravel\StructType\ClientVersionResponse;
 use AaronGRTech\QbwcLaravel\StructType\CloseConnectionResponse;
 use AaronGRTech\QbwcLaravel\StructType\ConnectionErrorResponse;
 use AaronGRTech\QbwcLaravel\StructType\GetLastErrorResponse;
-use AaronGRTech\QbwcLaravel\StructType\Queries\InvoiceQuery;
 use AaronGRTech\QbwcLaravel\StructType\ReceiveResponseXMLResponse;
 use AaronGRTech\QbwcLaravel\StructType\SendRequestXMLResponse;
 use AaronGRTech\QbwcLaravel\StructType\ServerVersion;
