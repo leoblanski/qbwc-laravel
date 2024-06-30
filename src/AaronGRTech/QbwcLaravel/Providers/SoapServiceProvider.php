@@ -3,6 +3,7 @@
 namespace AaronGRTech\QbwcLaravel\Providers;
 
 use AaronGRTech\QbwcLaravel\Http\Controllers\SoapController;
+use AaronGRTech\QbwcLaravel\Queue\QbQueryQueue;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use SoapServer;
@@ -23,6 +24,10 @@ class SoapServiceProvider extends ServiceProvider
             ];
             $server = new SoapServer(config('qbwc.soap.wsdl'), $options);
             return $server;
+        });
+
+        $this->app->singleton(QbQueryQueue::class, function ($app) {
+            return new QbQueryQueue();
         });
     }
 

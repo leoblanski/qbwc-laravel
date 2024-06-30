@@ -3,11 +3,13 @@
 namespace AaronGRTech\QbwcLaravel\Http\Controllers;
 
 use AaronGRTech\QbwcLaravel\ArrayType\ArrayOfString;
+use AaronGRTech\QbwcLaravel\Queue\QbQueryQueue;
 use AaronGRTech\QbwcLaravel\StructType\AuthenticateResponse;
 use AaronGRTech\QbwcLaravel\StructType\ClientVersionResponse;
 use AaronGRTech\QbwcLaravel\StructType\CloseConnectionResponse;
 use AaronGRTech\QbwcLaravel\StructType\ConnectionErrorResponse;
 use AaronGRTech\QbwcLaravel\StructType\GetLastErrorResponse;
+use AaronGRTech\QbwcLaravel\StructType\Queries\InvoiceQuery;
 use AaronGRTech\QbwcLaravel\StructType\ReceiveResponseXMLResponse;
 use AaronGRTech\QbwcLaravel\StructType\SendRequestXMLResponse;
 use AaronGRTech\QbwcLaravel\StructType\ServerVersion;
@@ -17,11 +19,13 @@ use SoapServer;
 
 class SoapController extends Controller
 {
+    protected $queryQueue;
     protected $options;
     protected $ticket;
 
-    public function __construct()
+    public function __construct(QbQueryQueue $queryQueue)
     {
+        $this->queryQueue = $queryQueue;
         $this->options = [
             'uri' => url(config('qbwc.routes.prefix')),
             'classmap' => \AaronGRTech\QbwcLaravel\ClassMap::get(),
@@ -74,7 +78,9 @@ class SoapController extends Controller
 
     public function sendRequestXML($parameters)
     {
-        return new SendRequestXMLResponse();
+        $query = $this->getNextQuery();
+
+        return new SendRequestXMLResponse($query ?? null);
     }
 
     public function receiveResponseXML($parameters)
@@ -104,5 +110,14 @@ class SoapController extends Controller
     private function generateTicket()
     {
         $this->ticket = uniqid(config('qbwc.soap.ticket_prefix'), true);
+    }
+
+    public function getNextQuery()
+    {
+        if ($this->queryQueue->hasQueries()) {
+            return $this->queryQueue->popQuery();
+        } else {
+            return response()->json(['status' => 'No queries in the queue']);
+        }
     }
 }

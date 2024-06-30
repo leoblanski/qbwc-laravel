@@ -11,5 +11,15 @@ return [
     'routes' => [
         'prefix' => env('QBWC_ROUTE_PREFIX', 'soap'),
         'middleware' => 'api'
-    ]
+    ],
+    'queue' => [
+        'max_returned' => env('QBWC_MAX_RETURNED', 100),
+        'queries' => [
+            [
+                'class' => \AaronGRTech\QbwcLaravel\StructType\Queries\InvoiceQuery::class,
+                'params' => ['MaxReturned' => 1]
+            ],
+            // Add more queries as needed
+        ],
+    ],
 ];
