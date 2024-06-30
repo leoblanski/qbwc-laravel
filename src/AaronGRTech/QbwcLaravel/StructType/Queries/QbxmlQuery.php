@@ -12,7 +12,7 @@ class QbxmlQuery extends AbstractStructBase
     protected $responseOptions;
     protected $innerXml;
 
-    public function __construct(array $parameters = [], array $responseOptions = null, $autoQueue = true)
+    public function __construct(array $parameters = [], array $responseOptions = null, $autoQueue = false)
     {
         $this->parameters = $parameters ?: ['MaxReturned' => 100];
         $this->responseOptions = $responseOptions;
