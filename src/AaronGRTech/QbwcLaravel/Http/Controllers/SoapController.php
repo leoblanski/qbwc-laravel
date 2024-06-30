@@ -75,11 +75,15 @@ class SoapController extends Controller
         return new AuthenticateResponse($response);
     }
 
-    public function sendRequestXML($parameters)
+    public function sendRequestXML()
     {
-        $query = $this->getNextQuery();
+        $query = null;
 
-        return new SendRequestXMLResponse($query ?? null);
+        if ($this->queryQueue->hasQueries()) {
+            $query = $this->queryQueue->popQuery();
+        }
+
+        return new SendRequestXMLResponse($query);
     }
 
     public function receiveResponseXML($parameters)
@@ -122,15 +126,6 @@ class SoapController extends Controller
     private function generateTicket()
     {
         $this->ticket = uniqid(config('qbwc.soap.ticket_prefix'), true);
-    }
-
-    public function getNextQuery()
-    {
-        if ($this->queryQueue->hasQueries()) {
-            return $this->queryQueue->popQuery();
-        } else {
-            return response()->json(['status' => 'No queries in the queue']);
-        }
     }
 
     private function parseResponseXML($xml)
