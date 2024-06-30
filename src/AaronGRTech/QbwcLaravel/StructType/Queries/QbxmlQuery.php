@@ -6,7 +6,7 @@ use DOMDocument;
 use WsdlToPhp\PackageBase\AbstractStructBase;
 use AaronGRTech\QbwcLaravel\Queue\QbQueryQueue;
 
-class QbmxlQuery extends AbstractStructBase
+class QbxmlQuery extends AbstractStructBase
 {
     protected $parameters;
     protected $responseOptions;
