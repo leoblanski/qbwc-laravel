@@ -104,6 +104,18 @@ if ($response instanceof AuthenticateResponse) {
     // Handle the error
 }
 ```
+## Post-Installation Steps
+
+After installing this package, please update your application's `composer.json` file to autoload the callbacks:
+
+```json
+{
+    "autoload": {
+        "psr-4": {
+            "App\\Callbacks\\": "app/Callbacks/"
+        }
+    }
+}
 
 ## Requirements
 

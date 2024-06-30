@@ -49,6 +49,11 @@ class SoapServiceProvider extends ServiceProvider
         $this->publishes([
             $packageBaseDir . '/QbwcLaravel/wsdl/QBWebConnectorSvc.wsdl' => storage_path('app/wsdl/QBWebConnectorSvc.wsdl'),
         ], 'wsdl');
+
+        $this->publishes([
+            $packageBaseDir . '/QbwcLaravel/Callbacks/QbwcCallback.php' => app_path('Callbacks/QbwcCallback.php'),
+            $packageBaseDir . '/QbwcLaravel/Callbacks/InvoiceCallback.php' => app_path('Callbacks/InvoiceCallback.php'),
+        ], 'qbwc-callbacks');
     }
 
     /**
