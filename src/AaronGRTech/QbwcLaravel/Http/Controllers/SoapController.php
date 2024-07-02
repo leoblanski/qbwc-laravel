@@ -1,9 +1,8 @@
 <?php
 
-namespace AaronGRTech\QbwcLaravel\Http\Controllers;
+namespace App\Http\Controllers\Qbwc;
 
 use AaronGRTech\QbwcLaravel\ArrayType\ArrayOfString;
-use AaronGRTech\QbwcLaravel\Queue\QbQueryQueue;
 use AaronGRTech\QbwcLaravel\StructType\AuthenticateResponse;
 use AaronGRTech\QbwcLaravel\StructType\ClientVersionResponse;
 use AaronGRTech\QbwcLaravel\StructType\CloseConnectionResponse;
@@ -18,28 +17,27 @@ use SoapServer;
 
 class SoapController extends Controller
 {
-    protected $queryQueue;
+    protected $server;
     protected $initialQueueSize;
-    protected $options;
     protected $ticket;
 
-    public function __construct(QbQueryQueue $queryQueue)
+    public function __construct()
     {
-        $this->queryQueue = $queryQueue;
-        $this->initialQueueSize = $this->queryQueue->queriesLeft();
-        $this->options = [
-            'uri' => url(config('qbwc.routes.prefix')),
+        $options = [
+            'uri' => config('qbwc.routes.prefix'),
             'classmap' => \AaronGRTech\QbwcLaravel\ClassMap::get(),
         ];
+
+        $this->server = new SoapServer(config('qbwc.soap.wsdl'), $options);
+        $this->initialQueueSize = $this->queryQueue->queriesLeft();
     }
 
     public function handle()
     {
-        $server = app()->make(SoapServer::class);
-        $server->setObject($this);
+        $this->server->setObject($this);
 
         ob_start();
-        $server->handle();
+        $this->server->handle();
         $response = ob_get_clean();
 
         return response($response, 200)->header('Content-Type', 'text/xml; charset=UTF-8');
