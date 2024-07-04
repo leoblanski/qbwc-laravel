@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::connection('qbwc_queue')->create('queues', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('name');
             $table->boolean('initialized')->default(false);
             $table->integer('total_tasks')->nullable();
             $table->integer('tasks_completed')->default(0);
