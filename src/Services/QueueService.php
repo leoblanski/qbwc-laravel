@@ -53,6 +53,17 @@ class QueueService
         $this->initialQueueSize = Task::on('qbwc_queue')->where('queue_id', $this->queue->id)->count();
     }
 
+    protected function createQueue()
+    {
+        $this->queue = Queue::on('qbwc_queue')->create(
+            [
+                'name' => $this->queueName,
+                'initialized' => true,
+                'initialized_at' => Carbon::now(),
+            ]
+        );
+    }
+
     public function getNextTask()
     {
         if ($this->queue && $this->queue->initialized) {
