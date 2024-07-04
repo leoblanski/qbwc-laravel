@@ -4,7 +4,6 @@ namespace AaronGRTech\QbwcLaravel\StructType\Queries;
 
 use DOMDocument;
 use WsdlToPhp\PackageBase\AbstractStructBase;
-use AaronGRTech\QbwcLaravel\Queue\QbQueryQueue;
 
 class QbxmlQuery extends AbstractStructBase
 {
@@ -12,15 +11,11 @@ class QbxmlQuery extends AbstractStructBase
     protected $responseOptions;
     protected $innerXml;
 
-    public function __construct(array $parameters = [], array $responseOptions = null, $autoQueue = false)
+    public function __construct(array $parameters = [], array $responseOptions = null)
     {
         $this->parameters = $parameters ?: ['MaxReturned' => 100];
         $this->responseOptions = $responseOptions;
         $this->setInnerXml($this->createInnerXml());
-
-        if ($autoQueue) {
-            $this->addToQueue();
-        }
     }
 
     protected function setInnerXml(DOMDocument $innerXml)
@@ -51,11 +46,6 @@ class QbxmlQuery extends AbstractStructBase
         }
 
         return $xml->saveXML();
-    }
-
-    public function addToQueue()
-    {
-        app(QbQueryQueue::class)->addQuery($this->toQbxml());
     }
 
     protected function createInnerXml()
