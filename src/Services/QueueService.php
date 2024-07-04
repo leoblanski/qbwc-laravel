@@ -132,6 +132,11 @@ class QueueService
 
     public function markQueueCompleted()
     {
-        $this->queue->update(['completed_at' => Carbon::now()]);
+        $this->queue->update(
+            [
+                'initialized' => false,
+                'completed_at' => Carbon::now()
+            ]
+        );
     }
 }
