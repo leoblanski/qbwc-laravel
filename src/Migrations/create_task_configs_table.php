@@ -10,7 +10,6 @@ return new class extends Migration
     {
         Schema::connection('qbwc_queue')->create('task_configs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('queue_name');
             $table->text('task_data');
             $table->integer('order');
