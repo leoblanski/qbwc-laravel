@@ -87,9 +87,6 @@ class QueueService
         $queue = $task->queue;
         $queue->increment('tasks_completed');
 
-        if ($queue->tasks()->where('status', 'pending')->doesntExist()) {
-            $queue->update(['completed_at' => Carbon::now()]);
-        }
     }
 
     public function markTaskFailed(Task $task, $errorMessage)
