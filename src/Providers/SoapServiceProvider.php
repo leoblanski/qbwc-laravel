@@ -29,11 +29,11 @@ class SoapServiceProvider extends ServiceProvider
         $packageBaseDir = dirname(__DIR__, 2);
 
         $this->publishes([
-            $packageBaseDir . '/QbwcLaravel/wsdl/QBWebConnectorSvc.wsdl' => storage_path('app/wsdl/QBWebConnectorSvc.wsdl'),
+            $packageBaseDir . '/wsdl/QBWebConnectorSvc.wsdl' => storage_path('app/wsdl/QBWebConnectorSvc.wsdl'),
         ], 'qbwc-wsdl');
 
         $this->publishes([
-            $packageBaseDir . '/QbwcLaravel/config/qbwc.php' => config_path('qbwc.php'),
+            $packageBaseDir . '/config/qbwc.php' => config_path('qbwc.php'),
         ], 'qbwc-config');
 
         $this->publishes([
@@ -45,19 +45,19 @@ class SoapServiceProvider extends ServiceProvider
         $this->registerRoutes();
 
         $this->publishes([
-            $packageBaseDir . '/QbwcLaravel/Callbacks/QbwcCallback.php' => app_path('Callbacks/QbwcCallback.php'),
-            $packageBaseDir . '/QbwcLaravel/Callbacks/InvoiceCallback.php' => app_path('Callbacks/InvoiceCallback.php'),
+            $packageBaseDir . '/Callbacks/QbwcCallback.php' => app_path('Callbacks/QbwcCallback.php'),
+            $packageBaseDir . '/Callbacks/InvoiceCallback.php' => app_path('Callbacks/InvoiceCallback.php'),
         ], 'qbwc-callbacks');
 
         $this->publishes([
-            __DIR__ . '/../Models/Qbwc/Queue.php' => app_path('Models/Qbwc/Queue.php'),
-            __DIR__ . '/../Models/Qbwc/Task.php' => app_path('Models/Qbwc/Task.php'),
-            __DIR__ . '/../Models/Qbwc/TaskConfig.php' => app_path('Models/Qbwc/TaskConfig.php'),
+            $packageBaseDir . '/Models/Qbwc/Queue.php' => app_path('Models/Qbwc/Queue.php'),
+            $packageBaseDir . '/Models/Qbwc/Task.php' => app_path('Models/Qbwc/Task.php'),
+            $packageBaseDir . '/Models/Qbwc/TaskConfig.php' => app_path('Models/Qbwc/TaskConfig.php'),
         ], 'qbwc-models');
 
         // Publish other resources like controllers if needed
         $this->publishes([
-            __DIR__ . '/../Http/Controllers/SoapController.php' => app_path('Http/Controllers/Qbwc/SoapController.php'),
+            $packageBaseDir . '/Http/Controllers/SoapController.php' => app_path('Http/Controllers/Qbwc/SoapController.php'),
         ], 'qbwc-controllers');
     }
 
