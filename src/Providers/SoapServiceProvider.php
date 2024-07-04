@@ -71,7 +71,7 @@ class SoapServiceProvider extends ServiceProvider
         $prefix = config('qbwc.routes.prefix');
         $controller = config('qbwc.routes.controller');
 
-        Route::middleware([])
+        Route::middleware(config('qbwc.routes.middleware'))
             ->prefix($prefix)
             ->group(function () use ($controller) {
                 Route::post('/', [$controller, 'handle']);
