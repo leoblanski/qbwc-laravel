@@ -24,7 +24,7 @@ class SoapController extends Controller
     protected $initialQueueSize;
     protected $ticket;
 
-    public function __construct(Request $request)
+    public function __construct()
     {
         $options = [
             'uri' => config('qbwc.routes.prefix'),
@@ -32,16 +32,14 @@ class SoapController extends Controller
         ];
 
         $this->server = new SoapServer(config('qbwc.soap.wsdl'), $options);
+    }
 
-        $queueName = $request->input('queueName', 'default_queue');
-
+    public function handle($queueName = null)
+    {
         $this->queueService = new QueueService($queueName);
         $this->queueService->initializeQueue();
         $this->initialQueueSize = $this->queueService->getInitialQueueSize();
-    }
 
-    public function handle()
-    {
         $this->server->setObject($this);
 
         ob_start();
