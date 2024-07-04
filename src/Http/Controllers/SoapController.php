@@ -137,7 +137,7 @@ class SoapController extends Controller
 
     public function closeConnection($parameters)
     {
-        return new CloseConnectionResponse("Closing Connection | Ticket: {$parameters->getTicket()}");
+        return new CloseConnectionResponse("Update Complete | Queue ID: {$this->queueService->getQueueId()}");
     }
 
     private function generateTicket()

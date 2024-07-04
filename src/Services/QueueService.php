@@ -20,10 +20,13 @@ class QueueService
 
     public function initializeQueue()
     {
-        $this->queue = Queue::on('qbwc_queue')->firstOrCreate(['name' => $this->queueName], [
-            'initialized' => true,
-            'initialized_at' => Carbon::now(),
-        ]);
+        $this->queue = Queue::on('qbwc_queue')->Create(
+            [
+                'name' => $this->queueName,
+                'initialized' => true,
+                'initialized_at' => Carbon::now(),
+            ]
+        );
 
         if ($this->queue->wasRecentlyCreated) {
             $taskConfigs = TaskConfig::on('qbwc_queue')
