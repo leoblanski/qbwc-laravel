@@ -96,4 +96,21 @@ class QbxmlQuery extends AbstractStructBase
     {
         return 'QueryRs';
     }
+
+    public function emptyResponse()
+    {
+        $xml = new DOMDocument('1.0', 'UTF-8');
+        $xml->formatOutput = true;
+
+        $xml->appendChild($xml->createProcessingInstruction('qbxml', 'version="16.0"'));
+
+        $qbXML = $xml->createElement('QBXML');
+        $xml->appendChild($qbXML);
+
+        $qbXMLMsgsRq = $xml->createElement('QBXMLMsgsRq');
+        $qbXMLMsgsRq->setAttribute('onError', 'stopOnError');
+        $qbXML->appendChild($qbXMLMsgsRq);
+
+        return $xml->saveXML();
+    }
 }
