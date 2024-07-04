@@ -18,7 +18,7 @@
     },
     "autoload": {
         "psr-4": {
-            "AaronGRTech\\QbwcLaravel\\": "./src/AaronGRTech/QbwcLaravel"
+            "AaronGRTech\\QbwcLaravel\\": "./src"
         }
     },
     "extra": {
