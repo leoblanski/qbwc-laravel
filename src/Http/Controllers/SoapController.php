@@ -16,6 +16,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use SoapServer;
 use AaronGRTech\QbwcLaravel\Services\QueueService;
+use AaronGRTech\QbwcLaravel\StructType\Queries\QbxmlQuery;
 
 class SoapController extends Controller
 {
@@ -85,6 +86,11 @@ class SoapController extends Controller
     {
         $task = $this->queueService->getNextTask();
         $query = $task ? $task->task_data : null;
+
+        if (!$query) {
+            $response = new QbxmlQuery();
+            return $response->emptyResponse();
+        }
 
         return new SendRequestXMLResponse($query);
     }
