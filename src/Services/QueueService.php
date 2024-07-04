@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services\Qbwc;
+namespace AaronGRTech\QbwcLaravel\Services;
 
-use App\Models\Qbwc\Queue;
-use App\Models\Qbwc\Task;
-use App\Models\Qbwc\TaskConfig;
+use AaronGRTech\QbwcLaravel\Models\Queue;
+use AaronGRTech\QbwcLaravel\Models\Task;
+use AaronGRTech\QbwcLaravel\Models\TaskConfig;
 use Carbon\Carbon;
 
 class QueueService

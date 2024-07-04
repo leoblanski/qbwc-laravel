@@ -9,7 +9,7 @@ return [
         'version' => env('QBWC_VERSION', '1.0'),
     ],
     'routes' => [
-        'controller' => App\Http\Controllers\Qbwc\SoapController::class,
+        'controller' => AaronGRTech\QbwcLaravel\Http\Controllers\SoapController::class,
         'prefix' => env('QBWC_ROUTE_PREFIX', 'soap'),
         'middleware' => 'api'
     ],

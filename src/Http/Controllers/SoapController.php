@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Qbwc;
+namespace AaronGRTech\QbwcLaravel\Http\Controllers;
 
 use AaronGRTech\QbwcLaravel\ArrayType\ArrayOfString;
 use AaronGRTech\QbwcLaravel\StructType\AuthenticateResponse;
@@ -18,6 +18,7 @@ use SoapServer;
 class SoapController extends Controller
 {
     protected $server;
+    protected $queryQueue;
     protected $initialQueueSize;
     protected $ticket;
 
