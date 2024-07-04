@@ -20,7 +20,7 @@ class QueueService
 
     public function initializeQueue()
     {
-        $this->queue = Queue::on('qbwc_queue')->Create(
+        $this->queue = Queue::on('qbwc_queue')->create(
             [
                 'name' => $this->queueName,
                 'initialized' => true,
