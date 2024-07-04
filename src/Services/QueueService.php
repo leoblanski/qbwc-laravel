@@ -15,7 +15,6 @@ class QueueService
     public function __construct($queueName)
     {
         $this->queueName = $queueName;
-        $this->initialQueueSize = Task::on('qbwc_queue')->where('queue_name', $queueName)->count();
     }
 
     public function initializeQueue()
@@ -42,6 +41,8 @@ class QueueService
                 ]);
             }
         }
+
+        $this->initialQueueSize = Task::on('qbwc_queue')->where('queue_id', $queue->id)->count();
     }
 
     public function getNextTask()
