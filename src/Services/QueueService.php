@@ -9,6 +9,7 @@ use Carbon\Carbon;
 
 class QueueService
 {
+    protected $queue;
     protected $queueName;
     protected $initialQueueSize;
 
@@ -19,22 +20,22 @@ class QueueService
 
     public function initializeQueue()
     {
-        $queue = Queue::on('qbwc_queue')->firstOrCreate(['name' => $this->queueName], [
+        $this->queue = Queue::on('qbwc_queue')->firstOrCreate(['name' => $this->queueName], [
             'initialized' => true,
             'initialized_at' => Carbon::now(),
         ]);
 
-        if ($queue->wasRecentlyCreated) {
+        if ($this->queue->wasRecentlyCreated) {
             $taskConfigs = TaskConfig::on('qbwc_queue')
                                       ->where('queue_name', $this->queueName)
                                       ->orderBy('order')
                                       ->get();
 
-            $queue->update(['total_tasks' => $taskConfigs->count()]);
+            $this->queue->update(['total_tasks' => $taskConfigs->count()]);
 
             foreach ($taskConfigs as $taskConfig) {
                 Task::on('qbwc_queue')->create([
-                    'queue_id' => $queue->id,
+                    'queue_id' => $this->queue->id,
                     'task_data' => $taskConfig->task_data,
                     'status' => 'pending',
                     'order' => $taskConfig->order,
@@ -42,16 +43,14 @@ class QueueService
             }
         }
 
-        $this->initialQueueSize = Task::on('qbwc_queue')->where('queue_id', $queue->id)->count();
+        $this->initialQueueSize = Task::on('qbwc_queue')->where('queue_id', $this->queue->id)->count();
     }
 
     public function getNextTask()
     {
-        $queue = Queue::on('qbwc_queue')->where('name', $this->queueName)->first();
-
-        if ($queue && $queue->initialized) {
+        if ($this->queue && $this->queue->initialized) {
             return Task::on('qbwc_queue')
-                        ->where('queue_id', $queue->id)
+                        ->where('queue_id', $this->queue->id)
                         ->where('status', 'pending')
                         ->orderBy('order')
                         ->first();
@@ -86,6 +85,11 @@ class QueueService
         $queue->increment('tasks_failed');
     }
 
+    public function getQueueId()
+    {
+        return $this->queue->id;
+    }
+
     public function getInitialQueueSize()
     {
         return $this->initialQueueSize;
@@ -93,10 +97,8 @@ class QueueService
 
     public function getRemainingTasks()
     {
-        $queue = Queue::on('qbwc_queue')->where('name', $this->queueName)->first();
-
-        if ($queue) {
-            return Task::on('qbwc_queue')->where('queue_id', $queue->id)->where('status', 'pending')->count();
+        if ($this->queue) {
+            return Task::on('qbwc_queue')->where('queue_id', $this->queue->id)->where('status', 'pending')->count();
         }
 
         return 0;
