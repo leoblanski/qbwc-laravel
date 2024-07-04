@@ -20,14 +20,15 @@ class QueueService
 
     public function initializeQueue()
     {
-        $this->queue = Queue::on('qbwc_queue')->create(
-            [
-                'name' => $this->queueName,
-                'initialized' => true,
-                'initialized_at' => Carbon::now(),
-            ]
-        );
+        $this->queue = Queue::on('qbwc_queue')
+            ->where('name', $this->queueName)
+            ->whereNull('completed_at')
+            ->first();
 
+        if (!$this->queue) {
+            $this->createQueue();
+        }
+        
         if ($this->queue->wasRecentlyCreated) {
             $taskConfigs = TaskConfig::on('qbwc_queue')
                                       ->where('queue_name', $this->queueName)
@@ -47,6 +48,17 @@ class QueueService
         }
 
         $this->initialQueueSize = Task::on('qbwc_queue')->where('queue_id', $this->queue->id)->count();
+    }
+
+    protected function createQueue()
+    {
+        $this->queue = Queue::on('qbwc_queue')->create(
+            [
+                'name' => $this->queueName,
+                'initialized' => true,
+                'initialized_at' => Carbon::now(),
+            ]
+        );
     }
 
     public function getNextTask()
