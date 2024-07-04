@@ -89,7 +89,7 @@ class SoapController extends Controller
 
         if (!$query) {
             $response = new QbxmlQuery();
-            return $response->emptyResponse();
+            $query = $response->emptyResponse();
         }
 
         return new SendRequestXMLResponse($query);
