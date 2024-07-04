@@ -74,7 +74,7 @@ class SoapServiceProvider extends ServiceProvider
         Route::middleware(config('qbwc.routes.middleware'))
             ->prefix($prefix)
             ->group(function () use ($controller) {
-                Route::post('/', [$controller, 'handle']);
+                Route::post('/{queueName?}', [$controller, 'handle']);
             });
     }
 }
