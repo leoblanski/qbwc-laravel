@@ -9,17 +9,25 @@ use Carbon\Carbon;
 
 class QueueService
 {
-    public function initializeQueue($name, $userId)
+    protected $queueName;
+    protected $initialQueueSize;
+
+    public function __construct($queueName)
     {
-        $queue = Queue::on('qbwc_queue')->firstOrCreate(['name' => $name], [
+        $this->queueName = $queueName;
+        $this->initialQueueSize = Task::on('qbwc_queue')->where('queue_name', $queueName)->count();
+    }
+
+    public function initializeQueue()
+    {
+        $queue = Queue::on('qbwc_queue')->firstOrCreate(['name' => $this->queueName], [
             'initialized' => true,
             'initialized_at' => Carbon::now(),
         ]);
 
         if ($queue->wasRecentlyCreated) {
             $taskConfigs = TaskConfig::on('qbwc_queue')
-                                      ->where('queue_name', $name)
-                                      ->where('user_id', $userId)
+                                      ->where('queue_name', $this->queueName)
                                       ->orderBy('order')
                                       ->get();
 
@@ -36,9 +44,9 @@ class QueueService
         }
     }
 
-    public function getNextTask($queueName)
+    public function getNextTask()
     {
-        $queue = Queue::on('qbwc_queue')->where('name', $queueName)->first();
+        $queue = Queue::on('qbwc_queue')->where('name', $this->queueName)->first();
 
         if ($queue && $queue->initialized) {
             return Task::on('qbwc_queue')
@@ -75,5 +83,32 @@ class QueueService
 
         $queue = $task->queue;
         $queue->increment('tasks_failed');
+    }
+
+    public function getInitialQueueSize()
+    {
+        return $this->initialQueueSize;
+    }
+
+    public function getRemainingTasks()
+    {
+        $queue = Queue::on('qbwc_queue')->where('name', $this->queueName)->first();
+
+        if ($queue) {
+            return Task::on('qbwc_queue')->where('queue_id', $queue->id)->where('status', 'pending')->count();
+        }
+
+        return 0;
+    }
+
+    public function getPercentComplete()
+    {
+        $remainingTasks = $this->getRemainingTasks();
+
+        if ($this->initialQueueSize > 0) {
+            return 100 - (($remainingTasks / $this->initialQueueSize) * 100);
+        }
+
+        return 100;
     }
 }

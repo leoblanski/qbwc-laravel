@@ -13,16 +13,18 @@ use AaronGRTech\QbwcLaravel\StructType\SendRequestXMLResponse;
 use AaronGRTech\QbwcLaravel\StructType\ServerVersion;
 use AaronGRTech\QbwcLaravel\StructType\ServerVersionResponse;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use SoapServer;
+use AaronGRTech\QbwcLaravel\Services\QueueService;
 
 class SoapController extends Controller
 {
     protected $server;
-    protected $queryQueue;
+    protected $queueService;
     protected $initialQueueSize;
     protected $ticket;
 
-    public function __construct()
+    public function __construct(Request $request)
     {
         $options = [
             'uri' => config('qbwc.routes.prefix'),
@@ -30,7 +32,12 @@ class SoapController extends Controller
         ];
 
         $this->server = new SoapServer(config('qbwc.soap.wsdl'), $options);
-        $this->initialQueueSize = $this->queryQueue->queriesLeft();
+
+        $queueName = $request->input('queueName', 'default_queue');
+
+        $this->queueService = new QueueService($queueName);
+        $this->queueService->initializeQueue();
+        $this->initialQueueSize = $this->queueService->getInitialQueueSize();
     }
 
     public function handle()
@@ -78,20 +85,15 @@ class SoapController extends Controller
 
     public function sendRequestXML()
     {
-        $query = null;
+        $task = $this->queueService->getNextTask();
+        $query = $task ? $task->task_data : null;
 
-        if ($this->queryQueue->hasQueries()) {
-            $query = $this->queryQueue->popQuery();
-        }
-
-        return new SendRequestXMLResponse($query->toQbxml());
+        return new SendRequestXMLResponse($query);
     }
 
     public function receiveResponseXML($parameters)
     {
         $responseXML = $parameters->getResponse();
-        // $hresult = $parameters->getHresult();
-        // $message = $parameters->getMessage();
 
         $parsedData = $this->parseResponseXML($responseXML);
         $response = $parsedData->QBXMLMsgsRs;
@@ -105,8 +107,11 @@ class SoapController extends Controller
 
         $percentComplete = 100;
 
-        if ($this->queryQueue->hasQueries()) {
-            $percentComplete = 100 - (($this->queryQueue->queriesLeft() / $this->initialQueueSize) * 100);
+        $task = $this->queueService->getNextTask();
+
+        if ($task) {
+            $this->queueService->markTaskCompleted($task);
+            $percentComplete = $this->queueService->getPercentComplete();
         }
 
         return new ReceiveResponseXMLResponse($percentComplete);
