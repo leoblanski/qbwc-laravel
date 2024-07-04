@@ -5,7 +5,7 @@ namespace AaronGRTech\QbwcLaravel\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 
-class SoapServiceProvider extends ServiceProvider
+class QbwcServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.

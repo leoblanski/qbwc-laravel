@@ -24,7 +24,7 @@
     "extra": {
     "laravel": {
         "providers": [
-            "AaronGRTech\\QbwcLaravel\\Providers\\SoapServiceProvider"
+            "AaronGRTech\\QbwcLaravel\\Providers\\QbwcServiceProvider"
         ]
     }
 }

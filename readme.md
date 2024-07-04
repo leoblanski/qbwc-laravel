@@ -21,7 +21,7 @@ Ensure that your `composer.json` includes the necessary autoload settings:
 "extra": {
     "laravel": {
         "providers": [
-            "AaronGRTech\\QbwcLaravel\\Providers\\SoapServiceProvider"
+            "AaronGRTech\\QbwcLaravel\\Providers\\QbwcServiceProvider"
         ]
     }
 }
@@ -33,7 +33,7 @@ After updating Composer, add the service provider to the `config/app.php` file:
 'providers' => [
     // Other Service Providers
 
-    AaronGRTech\QbwcLaravel\Providers\SoapServiceProvider::class,
+    AaronGRTech\QbwcLaravel\Providers\QbwcServiceProvider::class,
 ],
 ```
 
@@ -44,12 +44,12 @@ After updating Composer, add the service provider to the `config/app.php` file:
 Ensure that the WSDL file is available at `storage_path('app/wsdl/QBWebConnectorSvc.wsdl')`. You can publish the WSDL file to the storage directory using:
 
 ```bash
-php artisan vendor:publish --provider="AaronGRTech\QbwcLaravel\Providers\SoapServiceProvider"
+php artisan vendor:publish --provider="AaronGRTech\QbwcLaravel\Providers\QbwcServiceProvider"
 ```
 
 ### Routes
 
-This package provides routes to handle SOAP requests. These routes are automatically registered by the `SoapServiceProvider`.
+This package provides routes to handle SOAP requests. These routes are automatically registered by the `QbwcServiceProvider`.
 
 ### Controller
 
