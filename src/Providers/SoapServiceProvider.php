@@ -2,10 +2,8 @@
 
 namespace AaronGRTech\QbwcLaravel\Providers;
 
-use AaronGRTech\QbwcLaravel\Queue\QbQueryQueue;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
-use SoapServer;
 
 class SoapServiceProvider extends ServiceProvider
 {
@@ -36,10 +34,12 @@ class SoapServiceProvider extends ServiceProvider
             $packageBaseDir . '/config/qbwc.php' => config_path('qbwc.php'),
         ], 'qbwc-config');
 
+        $this->loadMigrationsFrom(__DIR__ . '/../Migrations');
+
         $this->publishes([
-            __DIR__ . '/../Migrations/2023_07_01_000000_create_queues_table.php' => database_path('migrations/Qbwc/' . date('Y_m_d_His', time()) . '_create_queues_table.php'),
-            __DIR__ . '/../Migrations/2023_07_01_000001_create_tasks_table.php' => database_path('migrations/Qbwc/' . date('Y_m_d_His', time()) . '_create_tasks_table.php'),
-            __DIR__ . '/../Migrations/2023_07_01_000002_create_task_configs_table.php' => database_path('migrations/Qbwc/' . date('Y_m_d_His', time()) . '_create_task_configs_table.php'),
+            __DIR__ . '/../Migrations/create_queues_table.php' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_queues_table.php'),
+            __DIR__ . '/../Migrations/create_tasks_table.php' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_tasks_table.php'),
+            __DIR__ . '/../Migrations/create_task_configs_table.php' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_task_configs_table.php'),
         ], 'qbwc-migrations');
 
         $this->registerRoutes();
