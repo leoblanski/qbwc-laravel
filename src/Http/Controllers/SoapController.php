@@ -217,7 +217,7 @@ class SoapController extends Controller
 
     private function generateTicket()
     {
-        $this->ticket = Str::random(config('qbwc.soap.ticket_prefix'), true);
+        $this->ticket = config('qbwc.soap.ticket_prefix') . Str::random();
     }
 
     private function validateTicket($ticket)
