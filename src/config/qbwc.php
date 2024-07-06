@@ -23,4 +23,20 @@ return [
             // Add more queries as needed
         ],
     ],
+    'callback_map' => [
+        'AccountQueryRs' => \AaronGRTech\QbwcLaravel\Callbacks\AccountCallback::class,
+        'BillQueryRs' => \AaronGRTech\QbwcLaravel\Callbacks\BillCallback::class,
+        'CreditMemoQueryRs' => \AaronGRTech\QbwcLaravel\Callbacks\CreditMemoCallback::class,
+        'CustomerQueryRs' => \AaronGRTech\QbwcLaravel\Callbacks\CustomerCallback::class,
+        'EmployeeQueryRs' => \AaronGRTech\QbwcLaravel\Callbacks\EmployeeCallback::class,
+        'EstimateQueryRs' => \AaronGRTech\QbwcLaravel\Callbacks\EstimateCallback::class,
+        'InvoiceQueryRs' => \AaronGRTech\QbwcLaravel\Callbacks\InvoiceCallback::class,
+        'ItemQueryRs' => \AaronGRTech\QbwcLaravel\Callbacks\ItemCallback::class,
+        'JournalEntryQueryRs' => \AaronGRTech\QbwcLaravel\Callbacks\JournalEntryCallback::class,
+        'PurchaseOrderQueryRs' => \AaronGRTech\QbwcLaravel\Callbacks\PurchaseOrderCallback::class,
+        'ReceivePaymentQueryRs' => \AaronGRTech\QbwcLaravel\Callbacks\ReceivePaymentCallback::class,
+        'SalesOrderQueryRs' => \AaronGRTech\QbwcLaravel\Callbacks\SalesOrderCallback::class,
+        'SalesReceiptQueryRs' => \AaronGRTech\QbwcLaravel\Callbacks\SalesReceiptCallback::class,
+        'VendorQueryRs' => \AaronGRTech\QbwcLaravel\Callbacks\VendorCallback::class,
+    ],
 ];
