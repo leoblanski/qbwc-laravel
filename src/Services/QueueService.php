@@ -59,6 +59,23 @@ class QueueService
         }
     }
 
+    public function getLastRun()
+    {
+        try {
+            $lastQueue = Queue::on('qbwc_queue')
+                              ->where('name', $this->queueName)
+                              ->where('initialized', false)
+                              ->orderBy('completed_at', 'desc')
+                              ->first();
+
+            return $lastQueue->initialized_at;
+        } catch (\Exception $e) {
+            Log::error("Failed to get last run: " . $e->getMessage());
+        }
+
+        return Carbon::now()->subHours(1)->toDateString();
+    }
+
     public function getCurrentTask()
     {
         try {
@@ -102,6 +119,19 @@ class QueueService
         }
 
         return null;
+    }
+
+    public function setRuntimeValues(Task $task)
+    {
+        foreach ($task->parameters as $key => $value) {
+            if ($key == 'FromModifiedDate' && $value == '') {
+                $task->parameters[$key] = $this->getLastRun();
+            } elseif ($key == 'ToModifiedDate' && $value == '') {
+                $task->parameters[$key] = Carbon::now()->toDateString();
+            }
+        }
+
+        return $task;
     }
 
     public function markTaskCompleted(Task $task)
