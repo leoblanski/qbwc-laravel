@@ -117,10 +117,7 @@ class SoapController extends Controller
             $query = null;
 
             if ($task) {
-                $taskClass = $task->getTaskClassAttribute();
-                $taskParams = $task->getTaskParamsAttribute();
-                $taskInstance = new $taskClass(...$taskParams); 
-                $query = $taskInstance->toQbXml();
+                $query = $task->toQbXml();
             }
 
             return is_null($query) ?

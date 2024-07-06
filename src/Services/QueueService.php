@@ -72,7 +72,7 @@ class QueueService
                 if ($task) {
                     $taskClass = $task->task_class;
                     $taskParams = $task->task_params;
-                    return new $taskClass(...$taskParams);
+                    return new $taskClass($taskParams);
                 }
             }
         } catch (\Exception $e) {
