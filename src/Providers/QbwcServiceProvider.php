@@ -45,8 +45,20 @@ class QbwcServiceProvider extends ServiceProvider
         $this->registerRoutes();
 
         $this->publishes([
-            $packageBaseDir . '/src/Callbacks/QbwcCallback.php' => app_path('Callbacks/QbwcCallback.php'),
+            $packageBaseDir . '/src/Callbacks/AccountCallback.php' => app_path('Callbacks/AccountCallback.php'),
+            $packageBaseDir . '/src/Callbacks/BillCallback.php' => app_path('Callbacks/BillCallback.php'),
+            $packageBaseDir . '/src/Callbacks/CreditMemoCallback.php' => app_path('Callbacks/CreditMemoCallback.php'),
+            $packageBaseDir . '/src/Callbacks/CustomerCallback.php' => app_path('Callbacks/CustomerCallback.php'),
+            $packageBaseDir . '/src/Callbacks/EmployeeCallback.php' => app_path('Callbacks/EmployeeCallback.php'),
+            $packageBaseDir . '/src/Callbacks/EstimateCallback.php' => app_path('Callbacks/EstimateCallback.php'),
             $packageBaseDir . '/src/Callbacks/InvoiceCallback.php' => app_path('Callbacks/InvoiceCallback.php'),
+            $packageBaseDir . '/src/Callbacks/ItemCallback.php' => app_path('Callbacks/ItemCallback.php'),
+            $packageBaseDir . '/src/Callbacks/JournalEntryCallback.php' => app_path('Callbacks/JournalEntryCallback.php'),
+            $packageBaseDir . '/src/Callbacks/PurchaseOrderCallback.php' => app_path('Callbacks/PurchaseOrderCallback.php'),
+            $packageBaseDir . '/src/Callbacks/ReceivePaymentCallback.php' => app_path('Callbacks/ReceivePaymentCallback.php'),
+            $packageBaseDir . '/src/Callbacks/SalesOrderCallback.php' => app_path('Callbacks/SalesOrderCallback.php'),
+            $packageBaseDir . '/src/Callbacks/SalesReceiptCallback.php' => app_path('Callbacks/SalesReceiptCallback.php'),
+            $packageBaseDir . '/src/Callbacks/VendorCallback.php' => app_path('Callbacks/VendorCallback.php'),
         ], 'qbwc-callbacks');
 
         $this->publishes([
