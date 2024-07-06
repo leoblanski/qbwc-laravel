@@ -113,12 +113,12 @@ class SoapController extends Controller
         }
 
         try {
-            $task = $this->queueService->getNextTask();
+            $taskQuery = $this->queueService->getNextTask();
             $query = null;
 
-            if ($task) {
-                $task = $this->queueService->setRuntimeValues($task);
-                $query = $task->toQbXml();
+            if ($taskQuery) {
+                $taskQuery = $this->queueService->setRuntimeValues($taskQuery);
+                $query = $taskQuery->toQbXml();
             }
 
             return is_null($query) ?

@@ -121,17 +121,17 @@ class QueueService
         return null;
     }
 
-    public function setRuntimeValues(Task $task)
+    public function setRuntimeValues($query)
     {
-        foreach ($task->parameters as $key => $value) {
+        foreach ($query->parameters as $key => $value) {
             if ($key == 'FromModifiedDate' && $value == '') {
-                $task->parameters[$key] = $this->getLastRun();
+                $query->parameters[$key] = $this->getLastRun();
             } elseif ($key == 'ToModifiedDate' && $value == '') {
-                $task->parameters[$key] = Carbon::now()->toDateString();
+                $query->parameters[$key] = Carbon::now()->toDateString();
             }
         }
 
-        return $task;
+        return $query;
     }
 
     public function markTaskCompleted(Task $task)
