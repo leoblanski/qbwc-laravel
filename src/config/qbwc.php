@@ -11,7 +11,7 @@ return [
     'routes' => [
         'controller' => AaronGRTech\QbwcLaravel\Http\Controllers\SoapController::class,
         'prefix' => env('QBWC_ROUTE_PREFIX', 'soap'),
-        'middleware' => 'api'
+        'middleware' => []
     ],
     'queue' => [
         'max_returned' => env('QBWC_MAX_RETURNED', 100),
