@@ -130,6 +130,8 @@ class QueueService
                 $query->setParameter($key, Carbon::now()->toDateString());
             }
         }
+
+        return $query;
     }
 
     public function markTaskCompleted(Task $task)
