@@ -13,7 +13,6 @@ use AaronGRTech\QbwcLaravel\StructType\SendRequestXMLResponse;
 use AaronGRTech\QbwcLaravel\StructType\ServerVersion;
 use AaronGRTech\QbwcLaravel\StructType\ServerVersionResponse;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use SoapServer;
 use AaronGRTech\QbwcLaravel\Services\QueueService;
 use AaronGRTech\QbwcLaravel\StructType\Queries\QbxmlQuery;
@@ -136,7 +135,11 @@ class SoapController extends Controller
 
     public function getLastError($parameters)
     {
-        return new GetLastErrorResponse($parameters->getTicket());
+        $response = "Ticket: {$parameters->getTicket()} | ";
+        $response .= "Hresult: {$parameters->getHresult()} | ";
+        $response .= "Message: {$parameters->getMessage()}";
+
+        return new GetLastErrorResponse($response);
     }
 
     public function closeConnection($parameters)
@@ -157,11 +160,14 @@ class SoapController extends Controller
 
     private function getCallbackClass($data)
     {
-        if (isset($data->InvoiceQueryRs)) {
-            return \App\Callbacks\InvoiceCallback::class;
+        $callbackMap = config('qbwc.callback_map');
+
+        foreach ($callbackMap as $responseType => $callbackClass) {
+            if (isset($data->$responseType)) {
+                return $callbackClass;
+            }
         }
 
-        // Add more conditions as needed for other types
         return null;
     }
 }
