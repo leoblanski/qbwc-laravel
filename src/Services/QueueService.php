@@ -59,15 +59,32 @@ class QueueService
         }
     }
 
+    public function getCurrentTask()
+    {
+        try {
+            if ($this->queue && $this->queue->initialized) {
+                return Task::on('qbwc_queue')
+                    ->where('queue_id', $this->queue->id)
+                    ->where('status', 'pending')
+                    ->orderBy('order')
+                    ->first();
+            }
+        } catch (\Exception $e) {
+            Log::error("Failed to get current task: " . $e->getMessage());
+        }
+
+        return null;
+    }
+
     public function getNextTask()
     {
         try {
             if ($this->queue && $this->queue->initialized) {
                 $task = Task::on('qbwc_queue')
-                            ->where('queue_id', $this->queue->id)
-                            ->where('status', 'pending')
-                            ->orderBy('order')
-                            ->first();
+                    ->where('queue_id', $this->queue->id)
+                    ->where('status', 'pending')
+                    ->orderBy('order')
+                    ->first();
 
                 if ($task) {
                     $taskClass = $task->task_class;
