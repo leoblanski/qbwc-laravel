@@ -123,15 +123,13 @@ class QueueService
 
     public function setRuntimeValues($query)
     {
-        foreach ($query->parameters as $key => $value) {
+        foreach ($query->getParameters() as $key => $value) {
             if ($key == 'FromModifiedDate' && $value == '') {
-                $query->parameters[$key] = $this->getLastRun();
+                $query->setParameter($key, $this->getLastRun());
             } elseif ($key == 'ToModifiedDate' && $value == '') {
-                $query->parameters[$key] = Carbon::now()->toDateString();
+                $query->setParameter($key, Carbon::now()->toDateString());
             }
         }
-
-        return $query;
     }
 
     public function markTaskCompleted(Task $task)

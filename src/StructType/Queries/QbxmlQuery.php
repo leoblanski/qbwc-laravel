@@ -18,6 +18,17 @@ class QbxmlQuery extends AbstractStructBase
         $this->setInnerXml($this->createInnerXml());
     }
 
+    public function getParameters()
+    {
+        return $this->parameters;
+    }
+
+    public function setParameter($key, $value)
+    {
+        $this->parameters[$key] = $value;
+        $this->setInnerXml($this->createInnerXml());
+    }
+
     protected function setInnerXml(DOMDocument $innerXml)
     {
         $this->innerXml = $innerXml;
