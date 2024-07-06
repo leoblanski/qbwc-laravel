@@ -2,6 +2,8 @@
 
 namespace App\Callbacks;
 
+use AaronGRTech\QbwcLaravel\Callbacks\QbwcCallback;
+
 class InvoiceCallback extends QbwcCallback
 {
     public function handleResponse($data)
