@@ -43,7 +43,8 @@ class QueueService
             foreach ($taskConfigs as $taskConfig) {
                 Task::on('qbwc_queue')->create([
                     'queue_id' => $this->queue->id,
-                    'task_data' => $taskConfig->task_data,
+                    'task_class' => $taskConfig->task_class,
+                    'task_params' => $taskConfig->task_params,
                     'status' => 'pending',
                     'order' => $taskConfig->order,
                 ]);
@@ -53,25 +54,20 @@ class QueueService
         $this->initialQueueSize = Task::on('qbwc_queue')->where('queue_id', $this->queue->id)->count();
     }
 
-    protected function createQueue()
-    {
-        $this->queue = Queue::on('qbwc_queue')->create(
-            [
-                'name' => $this->queueName,
-                'initialized' => true,
-                'initialized_at' => Carbon::now(),
-            ]
-        );
-    }
-
     public function getNextTask()
     {
         if ($this->queue && $this->queue->initialized) {
-            return Task::on('qbwc_queue')
+            $task = Task::on('qbwc_queue')
                         ->where('queue_id', $this->queue->id)
                         ->where('status', 'pending')
                         ->orderBy('order')
                         ->first();
+
+            if ($task) {
+                $taskClass = $task->task_class;
+                $taskParams = $task->task_params;
+                return new $taskClass(...$taskParams);
+            }
         }
 
         return null;
@@ -86,7 +82,6 @@ class QueueService
 
         $queue = $task->queue;
         $queue->increment('tasks_completed');
-
     }
 
     public function markTaskFailed(Task $task, $errorMessage)
