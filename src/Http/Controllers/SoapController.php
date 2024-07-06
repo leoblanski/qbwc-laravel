@@ -132,7 +132,7 @@ class SoapController extends Controller
     public function receiveResponseXML($parameters)
     {
         if (!$this->validateTicket($parameters->getTicket())) {
-            return $this->handleInvalidTicket(ReceiveResponseXMLResponse::class);
+            return $this->handleInvalidTicket(ReceiveResponseXMLResponse::class, 0);
         }
 
         try {
@@ -160,7 +160,7 @@ class SoapController extends Controller
             return new ReceiveResponseXMLResponse($percentComplete);
         } catch (\Exception $e) {
             Log::error("Failed to receive response XML: " . $e->getMessage());
-            return $this->sendEmptyResponse(ReceiveResponseXMLResponse::class);
+            return new ReceiveResponseXMLResponse(0);
         }
     }
 
@@ -225,10 +225,12 @@ class SoapController extends Controller
         return $ticket == $this->ticket;
     }
 
-    private function handleInvalidTicket($responseClass)
+    private function handleInvalidTicket($responseClass, $responseParams = null)
     {
         Log::error("Invalid ticket");
-        return $this->sendEmptyResponse($responseClass);
+        return $responseParams ? 
+        new $responseClass($responseParams) :
+        $this->sendEmptyResponse($responseClass);
     }
 
     private function parseResponseXML($xml)
