@@ -6,6 +6,7 @@ use AaronGRTech\QbwcLaravel\Models\Queue;
 use AaronGRTech\QbwcLaravel\Models\Task;
 use AaronGRTech\QbwcLaravel\Models\TaskConfig;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class QueueService
 {
@@ -20,54 +21,62 @@ class QueueService
 
     public function initializeQueue()
     {
-        $this->queue = Queue::on('qbwc_queue')->firstOrCreate(
-            [
-                'name' => $this->queueName,
-                'initialized' => true,
-            ],
-            [
-                'name' => $this->queueName,
-                'initialized' => true,
-                'initialized_at' => Carbon::now(),
-            ]
-        );
-        
-        if ($this->queue->wasRecentlyCreated) {
-            $taskConfigs = TaskConfig::on('qbwc_queue')
-                                      ->where('queue_name', $this->queueName)
-                                      ->orderBy('order')
-                                      ->get();
+        try {
+            $this->queue = Queue::on('qbwc_queue')->firstOrCreate(
+                [
+                    'name' => $this->queueName,
+                    'initialized' => true,
+                ],
+                [
+                    'name' => $this->queueName,
+                    'initialized' => true,
+                    'initialized_at' => Carbon::now(),
+                ]
+            );
 
-            $this->queue->update(['total_tasks' => $taskConfigs->count()]);
+            if ($this->queue->wasRecentlyCreated) {
+                $taskConfigs = TaskConfig::on('qbwc_queue')
+                                          ->where('queue_name', $this->queueName)
+                                          ->orderBy('order')
+                                          ->get();
 
-            foreach ($taskConfigs as $taskConfig) {
-                Task::on('qbwc_queue')->create([
-                    'queue_id' => $this->queue->id,
-                    'task_class' => $taskConfig->task_class,
-                    'task_params' => $taskConfig->task_params,
-                    'status' => 'pending',
-                    'order' => $taskConfig->order,
-                ]);
+                $this->queue->update(['total_tasks' => $taskConfigs->count()]);
+
+                foreach ($taskConfigs as $taskConfig) {
+                    Task::on('qbwc_queue')->create([
+                        'queue_id' => $this->queue->id,
+                        'task_class' => $taskConfig->task_class,
+                        'task_params' => $taskConfig->task_params,
+                        'status' => 'pending',
+                        'order' => $taskConfig->order,
+                    ]);
+                }
             }
-        }
 
-        $this->initialQueueSize = Task::on('qbwc_queue')->where('queue_id', $this->queue->id)->count();
+            $this->initialQueueSize = Task::on('qbwc_queue')->where('queue_id', $this->queue->id)->count();
+        } catch (\Exception $e) {
+            Log::error("Failed to initialize queue: " . $e->getMessage());
+        }
     }
 
     public function getNextTask()
     {
-        if ($this->queue && $this->queue->initialized) {
-            $task = Task::on('qbwc_queue')
-                        ->where('queue_id', $this->queue->id)
-                        ->where('status', 'pending')
-                        ->orderBy('order')
-                        ->first();
+        try {
+            if ($this->queue && $this->queue->initialized) {
+                $task = Task::on('qbwc_queue')
+                            ->where('queue_id', $this->queue->id)
+                            ->where('status', 'pending')
+                            ->orderBy('order')
+                            ->first();
 
-            if ($task) {
-                $taskClass = $task->task_class;
-                $taskParams = $task->task_params;
-                return new $taskClass(...$taskParams);
+                if ($task) {
+                    $taskClass = $task->task_class;
+                    $taskParams = $task->task_params;
+                    return new $taskClass(...$taskParams);
+                }
             }
+        } catch (\Exception $e) {
+            Log::error("Failed to get next task: " . $e->getMessage());
         }
 
         return null;
@@ -75,24 +84,33 @@ class QueueService
 
     public function markTaskCompleted(Task $task)
     {
-        $task->update([
-            'status' => 'completed',
-            'completed_at' => Carbon::now(),
-        ]);
+        try {
+            $task->update([
+                'status' => 'completed',
+                'completed_at' => Carbon::now(),
+            ]);
 
-        $queue = $task->queue;
-        $queue->increment('tasks_completed');
+            $queue = $task->queue;
+            $queue->increment('tasks_completed');
+        } catch (\Exception $e) {
+            Log::error("Failed to mark task as completed: " . $e->getMessage());
+        }
     }
 
     public function markTaskFailed(Task $task, $errorMessage)
     {
-        $task->update([
-            'status' => 'failed',
-            'error_message' => $errorMessage,
-        ]);
+        try {
+            $task->update([
+                'status' => 'failed',
+                'error_message' => $errorMessage,
+            ]);
 
-        $queue = $task->queue;
-        $queue->increment('tasks_failed');
+            $queue = $task->queue;
+            $queue->increment('tasks_failed');
+            Log::error("Task failed: " . $errorMessage);
+        } catch (\Exception $e) {
+            Log::error("Failed to mark task as failed: " . $e->getMessage());
+        }
     }
 
     public function getQueueId()
@@ -127,11 +145,15 @@ class QueueService
 
     public function markQueueCompleted()
     {
-        $this->queue->update(
-            [
-                'initialized' => false,
-                'completed_at' => Carbon::now()
-            ]
-        );
+        try {
+            $this->queue->update(
+                [
+                    'initialized' => false,
+                    'completed_at' => Carbon::now()
+                ]
+            );
+        } catch (\Exception $e) {
+            Log::error("Failed to mark queue as completed: " . $e->getMessage());
+        }
     }
 }
