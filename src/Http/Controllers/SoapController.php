@@ -3,8 +3,8 @@
 namespace AaronGRTech\QbwcLaravel\Http\Controllers;
 
 use AaronGRTech\QbwcLaravel\ArrayType\ArrayOfString;
-use AaronGRTech\QbwcLaravel\StructType\Queries\QbxmlQuery;
 use AaronGRTech\QbwcLaravel\Services\QueueService;
+use AaronGRTech\QbwcLaravel\Services\SoapService;
 use AaronGRTech\QbwcLaravel\StructType\AuthenticateResponse;
 use AaronGRTech\QbwcLaravel\StructType\ClientVersionResponse;
 use AaronGRTech\QbwcLaravel\StructType\CloseConnectionResponse;
@@ -16,7 +16,6 @@ use AaronGRTech\QbwcLaravel\StructType\ServerVersion;
 use AaronGRTech\QbwcLaravel\StructType\ServerVersionResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 use SoapServer;
 
 class SoapController extends Controller
@@ -24,6 +23,7 @@ class SoapController extends Controller
     protected $server;
     protected $queueService;
     protected $initialQueueSize;
+    protected $soapService;
     protected $ticket;
 
     public function __construct()
@@ -34,6 +34,8 @@ class SoapController extends Controller
         ];
 
         $this->server = new SoapServer(config('qbwc.soap.wsdl'), $options);
+        $this->soapService = new SoapService();
+        $this->ticket = $this->soapService->getCachedTicket();
     }
 
     public function handle($queueName = null)
@@ -63,7 +65,7 @@ class SoapController extends Controller
             return new ServerVersionResponse($version->getStrVersion());
         } catch (\Exception $e) {
             Log::error("Failed to get server version: " . $e->getMessage());
-            return $this->sendEmptyResponse(ServerVersionResponse::class);
+            return $this->soapService->sendEmptyResponse(ServerVersionResponse::class);
         }
     }
 
@@ -73,7 +75,7 @@ class SoapController extends Controller
             return new ClientVersionResponse('O:' . $parameters->getStrVersion());
         } catch (\Exception $e) {
             Log::error("Failed to get client version: " . $e->getMessage());
-            return $this->sendEmptyResponse(ClientVersionResponse::class);
+            return $this->soapService->sendEmptyResponse(ClientVersionResponse::class);
         }
     }
 
@@ -89,7 +91,8 @@ class SoapController extends Controller
                 $parameters->getStrUserName() == config('qbwc.user') ||
                 $parameters->getStrPassword() == config('qbwc.password')
             ) {
-                $this->generateTicket();
+                $this->soapService->generateTicket();
+                $this->ticket = $this->soapService->getCachedTicket();
 
                 $response = new ArrayOfString([
                     $this->ticket,
@@ -105,8 +108,8 @@ class SoapController extends Controller
 
     public function sendRequestXML($parameters)
     {
-        if (!$this->validateTicket($parameters->getTicket())) {
-            return $this->handleInvalidTicket(SendRequestXMLResponse::class);
+        if (!$this->soapService->validateTicket($parameters->getTicket())) {
+            return $this->soapService->handleInvalidTicket(SendRequestXMLResponse::class);
         }
 
         try {
@@ -121,27 +124,27 @@ class SoapController extends Controller
             }
 
             return is_null($query) ?
-                $this->sendEmptyResponse(SendRequestXMLResponse::class) :
+                $this->soapService->sendEmptyResponse(SendRequestXMLResponse::class) :
                 new SendRequestXMLResponse($query);
         } catch (\Exception $e) {
             Log::error("Failed to send request XML: " . $e->getMessage());
-            return $this->sendEmptyResponse(SendRequestXMLResponse::class);
+            return $this->soapService->sendEmptyResponse(SendRequestXMLResponse::class);
         }
     }
 
     public function receiveResponseXML($parameters)
     {
-        if (!$this->validateTicket($parameters->getTicket())) {
-            return $this->handleInvalidTicket(ReceiveResponseXMLResponse::class, 0);
+        if (!$this->soapService->validateTicket($parameters->getTicket())) {
+            return $this->soapService->handleInvalidTicket(ReceiveResponseXMLResponse::class, 0);
         }
 
         try {
             $responseXML = $parameters->getResponse();
 
-            $parsedData = $this->parseResponseXML($responseXML);
+            $parsedData = $this->soapService->parseResponseXML($responseXML);
             $response = $parsedData->QBXMLMsgsRs;
 
-            $callbackClass = $this->getCallbackClass($response);
+            $callbackClass = $this->soapService->getCallbackClass($response);
 
             if ($callbackClass && class_exists($callbackClass)) {
                 $callback = new $callbackClass();
@@ -166,8 +169,8 @@ class SoapController extends Controller
 
     public function connectionError($parameters)
     {
-        if (!$this->validateTicket($parameters->getTicket())) {
-            return $this->handleInvalidTicket(ConnectionErrorResponse::class);
+        if (!$this->soapService->validateTicket($parameters->getTicket())) {
+            return $this->soapService->handleInvalidTicket(ConnectionErrorResponse::class);
         }
 
         try {
@@ -178,14 +181,14 @@ class SoapController extends Controller
             return new ConnectionErrorResponse($response);
         } catch (\Exception $e) {
             Log::error("Connection error: " . $e->getMessage());
-            return $this->sendEmptyResponse(ConnectionErrorResponse::class);
+            return $this->soapService->sendEmptyResponse(ConnectionErrorResponse::class);
         }
     }
 
     public function getLastError($parameters)
     {
-        if (!$this->validateTicket($parameters->getTicket())) {
-            return $this->handleInvalidTicket(GetLastErrorResponse::class);
+        if (!$this->soapService->validateTicket($parameters->getTicket())) {
+            return $this->soapService->handleInvalidTicket(GetLastErrorResponse::class);
         }
 
         try {
@@ -196,66 +199,23 @@ class SoapController extends Controller
             return new GetLastErrorResponse($response);
         } catch (\Exception $e) {
             Log::error("Failed to get last error: " . $e->getMessage());
-            return $this->sendEmptyResponse(GetLastErrorResponse::class);
+            return $this->soapService->sendEmptyResponse(GetLastErrorResponse::class);
         }
     }
 
     public function closeConnection($parameters)
     {
-        if (!$this->validateTicket($parameters->getTicket())) {
-            return $this->handleInvalidTicket(CloseConnectionResponse::class);
+        if (!$this->soapService->validateTicket($parameters->getTicket())) {
+            return $this->soapService->handleInvalidTicket(CloseConnectionResponse::class);
         }
 
         try {
             $this->queueService->markQueueCompleted();
+            $this->soapService->forgetCachedTicket();
             return new CloseConnectionResponse("Update Complete | Queue ID: {$this->queueService->getQueueId()}");
         } catch (\Exception $e) {
             Log::error("Failed to close connection: " . $e->getMessage());
-            return $this->sendEmptyResponse(CloseConnectionResponse::class);
+            return $this->soapService->sendEmptyResponse(CloseConnectionResponse::class);
         }
-    }
-
-    private function generateTicket()
-    {
-        $this->ticket = config('qbwc.soap.ticket_prefix') . Str::random();
-    }
-
-    private function validateTicket($ticket)
-    {
-        return $ticket == $this->ticket;
-    }
-
-    private function handleInvalidTicket($responseClass, $responseParams = null)
-    {
-        Log::error("Invalid ticket");
-        return $responseParams ? 
-        new $responseClass($responseParams) :
-        $this->sendEmptyResponse($responseClass);
-    }
-
-    private function parseResponseXML($xml)
-    {
-        return simplexml_load_string($xml);
-    }
-
-    private function sendEmptyResponse($responseClass)
-    {
-        $baseQuery = new QbxmlQuery();
-        $query = $baseQuery->emptyResponse();
-
-        return new $responseClass($query);
-    }
-
-    private function getCallbackClass($data)
-    {
-        $callbackMap = config('qbwc.callback_map');
-
-        foreach ($callbackMap as $responseType => $callbackClass) {
-            if (isset($data->$responseType)) {
-                return $callbackClass;
-            }
-        }
-
-        return null;
     }
 }
