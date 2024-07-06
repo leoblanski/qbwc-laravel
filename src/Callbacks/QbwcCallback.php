@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Callbacks;
+namespace AaronGRTech\QbwcLaravel\Callbacks;
 
 abstract class QbwcCallback
 {
