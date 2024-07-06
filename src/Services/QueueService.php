@@ -70,7 +70,7 @@ class QueueService
                               ->orderBy('completed_at', 'desc')
                               ->first();
 
-            return $lastQueue->initialized_at;
+            return new Carbon($lastQueue->initialized_at);
         } catch (\Exception $e) {
             Log::error("Failed to get last run: " . $e->getMessage());
         }
@@ -127,9 +127,9 @@ class QueueService
     {
         foreach ($query->getParameters() as $key => $value) {
             if ($key == 'FromModifiedDate' && $value == '') {
-                $query->setParameter($key, $this->getLastRun());
+                $query->setParameter($key, $this->getLastRun()->format('Y-m-dTH:i:s'));
             } elseif ($key == 'ToModifiedDate' && $value == '') {
-                $query->setParameter($key, Carbon::now()->format('Y-m-d H:i:s'));
+                $query->setParameter($key, Carbon::now()->format('Y-m-dTH:i:s'));
             }
         }
 
