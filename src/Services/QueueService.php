@@ -65,6 +65,8 @@ class QueueService
             $lastQueue = Queue::on('qbwc_queue')
                               ->where('name', $this->queueName)
                               ->where('initialized', false)
+                              ->where('tasks_completed', '>', 0)
+                              ->whereNotNull('completed_at')
                               ->orderBy('completed_at', 'desc')
                               ->first();
 
