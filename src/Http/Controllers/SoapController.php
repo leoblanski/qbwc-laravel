@@ -3,6 +3,8 @@
 namespace AaronGRTech\QbwcLaravel\Http\Controllers;
 
 use AaronGRTech\QbwcLaravel\ArrayType\ArrayOfString;
+use AaronGRTech\QbwcLaravel\StructType\Queries\QbxmlQuery;
+use AaronGRTech\QbwcLaravel\Services\QueueService;
 use AaronGRTech\QbwcLaravel\StructType\AuthenticateResponse;
 use AaronGRTech\QbwcLaravel\StructType\ClientVersionResponse;
 use AaronGRTech\QbwcLaravel\StructType\CloseConnectionResponse;
@@ -13,9 +15,8 @@ use AaronGRTech\QbwcLaravel\StructType\SendRequestXMLResponse;
 use AaronGRTech\QbwcLaravel\StructType\ServerVersion;
 use AaronGRTech\QbwcLaravel\StructType\ServerVersionResponse;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
 use SoapServer;
-use AaronGRTech\QbwcLaravel\Services\QueueService;
-use AaronGRTech\QbwcLaravel\StructType\Queries\QbxmlQuery;
 
 class SoapController extends Controller
 {
@@ -150,7 +151,7 @@ class SoapController extends Controller
 
     private function generateTicket()
     {
-        $this->ticket = uniqid(config('qbwc.soap.ticket_prefix'), true);
+        $this->ticket = config('qbwc.soap.ticket_prefix') . Str::random();
     }
 
     private function parseResponseXML($xml)
