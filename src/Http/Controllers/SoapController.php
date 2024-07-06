@@ -85,11 +85,15 @@ class SoapController extends Controller
     public function sendRequestXML()
     {
         $task = $this->queueService->getNextTask();
-        $query = $task ? $task->task_data : null;
+        $baseQuery = new QbxmlQuery();
+        // Default empty response
+        $query = $baseQuery->emptyResponse();
 
-        if (!$query) {
-            $response = new QbxmlQuery();
-            $query = $response->emptyResponse();
+        if ($task) {
+            $taskClass = $task->getTaskClassAttribute();
+            $taskParams = $task->getTaskParamsAttribute();
+            $taskInstance = new $taskClass(...$taskParams); 
+            $query = $taskInstance->toQbXml();
         }
 
         return new SendRequestXMLResponse($query);
