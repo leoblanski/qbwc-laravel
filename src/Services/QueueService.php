@@ -65,7 +65,7 @@ class QueueService
             if ($this->queue && $this->queue->initialized) {
                 return Task::on('qbwc_queue')
                     ->where('queue_id', $this->queue->id)
-                    ->where('status', 'pending')
+                    ->where('status', 'processing')
                     ->orderBy('order')
                     ->first();
             }
@@ -89,6 +89,11 @@ class QueueService
                 if ($task) {
                     $taskClass = $task->task_class;
                     $taskParams = $task->task_params;
+
+                    $task->started_at = Carbon::now();
+                    $task->status = 'processing';
+                    $task->save();
+    
                     return new $taskClass($taskParams);
                 }
             }
