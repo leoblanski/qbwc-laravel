@@ -46,7 +46,7 @@ class QueueService
                     Task::on('qbwc_queue')->create([
                         'queue_id' => $this->queue->id,
                         'task_class' => $taskConfig->task_class,
-                        'task_params' => json_encode($taskConfig->task_params),
+                        'task_params' => $taskConfig->task_params,
                         'status' => 'pending',
                         'order' => $taskConfig->order,
                     ]);
