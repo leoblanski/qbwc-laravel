@@ -2,30 +2,20 @@
 
 namespace AaronGRTech\QbwcLaravel\Models;
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-return new class extends Migration
+class Task extends Model
 {
-    public function up()
-    {
-        Schema::connection('qbwc_queue')->create('tasks', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('queue_id')->constrained('queues')->onDelete('cascade');
-            $table->string('task_class');
-            $table->json('task_params');
-            $table->enum('status', ['pending', 'processing', 'completed', 'failed'])->default('pending');
-            $table->integer('order');
-            $table->text('error_message')->nullable();
-            $table->timestamp('started_at')->nullable();
-            $table->timestamp('completed_at')->nullable();
-            $table->timestamps();
-        });
-    }
+    use HasFactory;
 
-    public function down()
+    protected $connection = 'qbwc_queue';
+    protected $fillable = [
+        'queue_id', 'task_class', 'task_params', 'order', 'status', 'error_message', 'started_at', 'completed_at'
+    ];
+
+    public function queue()
     {
-        Schema::connection('qbwc_queue')->dropIfExists('tasks');
+        return $this->belongsTo(Queue::class);
     }
-};
+}
