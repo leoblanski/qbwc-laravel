@@ -127,10 +127,12 @@ class QueueService
     {
         foreach ($query->getParameters() as $key => $value) {
             if ($key === 'ModifiedDateRangeFilter') {
-                isset($value['FromModifiedDate']) && $value['FromModifiedDate'] == '' ?: 
-                    $value['FromModifiedDate'] = $this->getLastRun()->format('Y-m-d\TH:i:s');
-                isset($value['ToModifiedDate']) && $value['ToModifiedDate'] == '' ?:
-                    $value['ToModifiedDate'] = Carbon::now()->format('Y-m-d\TH:i:s');
+                isset($value['FromModifiedDate']) && $value['FromModifiedDate'] == '' ? 
+                    $value['FromModifiedDate'] = $this->getLastRun()->format('Y-m-d\TH:i:s') :
+                    $value['FromModifiedDate'] = $value['FromModifiedDate'];
+                isset($value['ToModifiedDate']) && $value['ToModifiedDate'] == '' ?
+                    $value['ToModifiedDate'] = Carbon::now()->format('Y-m-d\TH:i:s') :
+                    $value['ToModifiedDate'] = $value['ToModifiedDate'];
             }
         }        
 
