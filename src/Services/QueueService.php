@@ -126,12 +126,21 @@ class QueueService
     public function setRuntimeValues($query)
     {
         foreach ($query->getParameters() as $key => $value) {
-            if ($key == 'FromModifiedDate' && $value == '') {
-                $query->setParameter($key, $this->getLastRun()->format('Y-m-dTH:i:s'));
-            } elseif ($key == 'ToModifiedDate' && $value == '') {
-                $query->setParameter($key, Carbon::now()->format('Y-m-dTH:i:s'));
+            if ($key === 'ModifiedDateRangeFilter') {
+                switch ($key) {
+                    case 'FromModifiedDate':
+                        if ($value === '') {
+                            $query->setParameter($key, $this->getLastRun()->format('Y-m-d\TH:i:s'));
+                        }
+                        break;
+                    case 'ToModifiedDate':
+                        if ($value === '') {
+                            $query->setParameter($key, Carbon::now()->format('Y-m-d\TH:i:s'));
+                        }
+                        break;
+                }
             }
-        }
+        }        
 
         return $query;
     }
