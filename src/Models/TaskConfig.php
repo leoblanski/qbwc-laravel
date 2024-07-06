@@ -16,9 +16,4 @@ class TaskConfig extends Model
     {
         return $this->belongsTo(User::class);
     }
-
-    public function getTaskParamsAttribute()
-    {
-        return json_decode($this->attributes['task_params'], true);
-    }
 }

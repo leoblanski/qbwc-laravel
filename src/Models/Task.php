@@ -18,4 +18,9 @@ class Task extends Model
     {
         return $this->belongsTo(Queue::class);
     }
+
+    public function getTaskParamsAttribute()
+    {
+        return json_decode($this->attributes['task_params'], true);
+    }
 }
