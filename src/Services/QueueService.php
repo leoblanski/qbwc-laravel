@@ -127,7 +127,7 @@ class QueueService
             if ($key == 'FromModifiedDate' && $value == '') {
                 $query->setParameter($key, $this->getLastRun());
             } elseif ($key == 'ToModifiedDate' && $value == '') {
-                $query->setParameter($key, Carbon::now()->toDateString());
+                $query->setParameter($key, Carbon::now()->format('Y-m-d H:i:s'));
             }
         }
 
