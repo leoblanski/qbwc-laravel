@@ -12,6 +12,11 @@ class SoapService
     protected $ticket;
     protected $cacheKey = 'qbwc_ticket';
 
+    public function __construct()
+    {
+        $this->ticket = $this->getCachedTicket();
+    }
+
     public function generateTicket()
     {
         $this->ticket = config('qbwc.soap.ticket_prefix') . Str::random();
