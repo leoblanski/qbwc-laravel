@@ -11,7 +11,8 @@ return new class extends Migration
         Schema::connection('qbwc_queue')->create('task_configs', function (Blueprint $table) {
             $table->id();
             $table->string('queue_name');
-            $table->text('task_data');
+            $table->string('task_class');
+            $table->json('task_params');
             $table->integer('order');
             $table->timestamps();
         });

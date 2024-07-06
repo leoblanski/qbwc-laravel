@@ -11,7 +11,8 @@ return new class extends Migration
         Schema::connection('qbwc_queue')->create('tasks', function (Blueprint $table) {
             $table->id();
             $table->foreignId('queue_id')->constrained('queues')->onDelete('cascade');
-            $table->text('task_data');
+            $table->string('task_class');
+            $table->json('task_params');
             $table->enum('status', ['pending', 'processing', 'completed', 'failed'])->default('pending');
             $table->integer('order');
             $table->text('error_message')->nullable();
