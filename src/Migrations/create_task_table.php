@@ -15,8 +15,8 @@ return new class extends Migration
             $table->json('task_params');
             $table->enum('iterator', ['Start', 'Continue'])->nullable();
             $table->string('iterator_id')->nullable();
-            $table->int('loop_count')->nullable();
-            $table->int('loops_remaining')->nullable();
+            $table->integer('loop_count')->nullable();
+            $table->integer('loops_remaining')->nullable();
             $table->enum('status', ['pending', 'processing', 'completed', 'failed'])->default('pending');
             $table->integer('order');
             $table->text('error_message')->nullable();
