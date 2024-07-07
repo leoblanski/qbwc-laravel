@@ -11,7 +11,18 @@ class Task extends Model
 
     protected $connection = 'qbwc_queue';
     protected $fillable = [
-        'queue_id', 'task_class', 'task_params', 'order', 'status', 'error_message', 'started_at', 'completed_at'
+        'queue_id',
+        'task_class',
+        'task_params',
+        'iterator',
+        'iterator_id',
+        'loop_count',
+        'loops_remaining',
+        'order',
+        'status',
+        'error_message',
+        'started_at',
+        'completed_at'
     ];
 
     public function queue()

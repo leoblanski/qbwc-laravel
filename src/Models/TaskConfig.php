@@ -10,7 +10,7 @@ class TaskConfig extends Model
     use HasFactory;
 
     protected $connection = 'qbwc_queue';
-    protected $fillable = ['user_id', 'queue_name', 'task_class', 'task_params', 'order'];
+    protected $fillable = ['user_id', 'queue_name', 'task_class', 'task_params', 'iterate', 'order'];
 
     public function user()
     {

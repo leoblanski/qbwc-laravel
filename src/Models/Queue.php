@@ -11,7 +11,7 @@ class Queue extends Model
 
     protected $connection = 'qbwc_queue';
     protected $fillable = [
-        'name', 'initialized', 'total_tasks', 'tasks_completed', 'tasks_failed', 
+        'name', 'ticket', 'initialized', 'total_tasks', 'tasks_completed', 'tasks_failed', 
         'initialized_at', 'completed_at'
     ];
 

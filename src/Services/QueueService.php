@@ -11,10 +11,11 @@ use Illuminate\Support\Facades\Log;
 class QueueService
 {
     protected $queue;
+    protected $ticket;
     protected $queueName;
     protected $initialQueueSize;
 
-    public function __construct($queueName)
+    public function __construct($ticket, $queueName)
     {
         $this->queueName = $queueName;
     }
@@ -24,11 +25,12 @@ class QueueService
         try {
             $this->queue = Queue::on('qbwc_queue')->firstOrCreate(
                 [
-                    'name' => $this->queueName,
+                    'ticket' => $this->ticket,
                     'initialized' => true,
                 ],
                 [
                     'name' => $this->queueName,
+                    'ticket' => $this->ticket,
                     'initialized' => true,
                     'initialized_at' => Carbon::now(),
                 ]
@@ -47,6 +49,8 @@ class QueueService
                         'queue_id' => $this->queue->id,
                         'task_class' => $taskConfig->task_class,
                         'task_params' => $taskConfig->task_params,
+                        'iterator' => $taskConfig->iterate ? 'Start' : null,
+                        'loop_count' => $taskConfig->iterate ? 1 : null,
                         'status' => 'pending',
                         'order' => $taskConfig->order,
                     ]);
@@ -57,6 +61,36 @@ class QueueService
         } catch (\Exception $e) {
             Log::error("Failed to initialize queue: " . $e->getMessage());
         }
+    }
+
+    public function getQueueId()
+    {
+        return $this->queue->id;
+    }
+
+    public function getInitialQueueSize()
+    {
+        return $this->initialQueueSize;
+    }
+
+    public function getRemainingTasks()
+    {
+        if ($this->queue) {
+            return Task::on('qbwc_queue')->where('queue_id', $this->queue->id)->where('status', 'pending')->count();
+        }
+
+        return 0;
+    }
+
+    public function getPercentComplete()
+    {
+        $remainingTasks = $this->getRemainingTasks();
+
+        if ($this->initialQueueSize > 0) {
+            return 100 - (($remainingTasks / $this->initialQueueSize) * 100);
+        }
+
+        return 100;
     }
 
     public function getLastRun()
@@ -108,12 +142,33 @@ class QueueService
                 if ($task) {
                     $taskClass = $task->task_class;
                     $taskParams = $task->task_params;
+                    $iterator = null;
+                    $iteratorId = null;
+                    $loopCount = null;
+
+                    if ($task->iterator == 'Start' || $task->iterator == 'Continue') {
+                        $iterator = $task->iterator;
+                        $iteratorId = $task->iterator_id;
+                        $loopCount = $task->loop_count;
+
+                        $task->iterator = 'Continue';
+                        $task->loop_count->increment();
+
+                        if ($task->loops_remaining && $task->loops_remaining > 0) {
+                            $task->loops_remaining->decrement();
+
+                            if ($task->loops_remaining == 0) {
+                                $task->status = 'completed';
+                            }
+                        }
+                    }
+                    
 
                     $task->started_at = Carbon::now();
                     $task->status = 'processing';
                     $task->save();
     
-                    return new $taskClass($taskParams);
+                    return new $taskClass($taskParams, $iterator, $iteratorId, $loopCount);
                 }
             }
         } catch (\Exception $e) {
@@ -181,36 +236,6 @@ class QueueService
         } catch (\Exception $e) {
             Log::error("Failed to mark task as failed: " . $e->getMessage());
         }
-    }
-
-    public function getQueueId()
-    {
-        return $this->queue->id;
-    }
-
-    public function getInitialQueueSize()
-    {
-        return $this->initialQueueSize;
-    }
-
-    public function getRemainingTasks()
-    {
-        if ($this->queue) {
-            return Task::on('qbwc_queue')->where('queue_id', $this->queue->id)->where('status', 'pending')->count();
-        }
-
-        return 0;
-    }
-
-    public function getPercentComplete()
-    {
-        $remainingTasks = $this->getRemainingTasks();
-
-        if ($this->initialQueueSize > 0) {
-            return 100 - (($remainingTasks / $this->initialQueueSize) * 100);
-        }
-
-        return 100;
     }
 
     public function markQueueCompleted()

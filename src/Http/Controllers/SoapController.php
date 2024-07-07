@@ -41,10 +41,6 @@ class SoapController extends Controller
     public function handle($queueName = null)
     {
         try {
-            $this->queueService = new QueueService($queueName);
-            $this->queueService->initializeQueue();
-            $this->initialQueueSize = $this->queueService->getInitialQueueSize();
-
             $this->server->setObject($this);
 
             ob_start();
@@ -93,6 +89,9 @@ class SoapController extends Controller
             ) {
                 $this->soapService->generateTicket();
                 $this->ticket = $this->soapService->getCachedTicket();
+                $this->queueService = new QueueService($this->ticket, $queueName);
+                $this->queueService->initializeQueue();
+                $this->initialQueueSize = $this->queueService->getInitialQueueSize();
 
                 $response = new ArrayOfString([
                     $this->ticket,

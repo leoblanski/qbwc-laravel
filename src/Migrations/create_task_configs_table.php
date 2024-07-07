@@ -13,6 +13,7 @@ return new class extends Migration
             $table->string('queue_name');
             $table->string('task_class');
             $table->json('task_params');
+            $table->bool('iterate');
             $table->integer('order');
             $table->timestamps();
         });

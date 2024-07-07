@@ -11,11 +11,11 @@ class QbxmlQuery extends AbstractStructBase
     protected $responseOptions;
     protected $innerXml;
 
-    public function __construct(array $parameters = [], array $responseOptions = null)
+    public function __construct(array $parameters = [], array $responseOptions = null, string $requestId = null, string $iterator = null, string $iteratorId = null)
     {
         $this->parameters = $parameters ?: ['MaxReturned' => 100];
         $this->responseOptions = $responseOptions;
-        $this->setInnerXml($this->createInnerXml());
+        $this->setInnerXml($this->createInnerXml($requestId, $iterator, $iteratorId));
     }
 
     public function getParameters()
@@ -78,10 +78,22 @@ class QbxmlQuery extends AbstractStructBase
         return $xml->saveXML();
     }
 
-    protected function createInnerXml()
+    protected function createInnerXml($requestId, $iterator, $iteratorId)
     {
         $xml = new DOMDocument('1.0', 'UTF-8');
         $queryRq = $xml->createElement($this->getQueryElement());
+
+        if ($requestId) {
+            $queryRq->setAttribute('requestID', $requestId);
+        }
+
+        if ($iterator) {
+            $queryRq->setAttribute('iterator', $iterator);
+        }
+
+        if ($iteratorId) {
+            $queryRq->setAttribute('iteratorID', $iteratorId);
+        }
 
         foreach ($this->parameters as $key => $value) {
             $this->appendParameter($xml, $queryRq, $key, $value);
