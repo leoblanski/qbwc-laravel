@@ -169,7 +169,7 @@ class QueueService
                     $task->status = 'processing';
                     $task->save();
     
-                    return new $taskClass($taskParams, [], $loopCount, $iterator, $iteratorId);
+                    return new $taskClass($taskParams, null, $loopCount, $iterator, $iteratorId);
                 }
             }
         } catch (\Exception $e) {
