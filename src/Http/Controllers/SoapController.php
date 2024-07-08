@@ -203,9 +203,8 @@ class SoapController extends Controller
         }
 
         try {
-            $response = "Ticket: {$parameters->getTicket()} | ";
-            $response .= "Hresult: {$parameters->hresult} | ";
-            $response .= "Message: {$parameters->message}";
+            $response = "Ticket: {$parameters->getTicket()}";
+            // $this->queueService->markTaskFailed();
 
             return new GetLastErrorResponse($response);
         } catch (\Exception $e) {
