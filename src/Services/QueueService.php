@@ -77,7 +77,12 @@ class QueueService
     public function getRemainingTasks()
     {
         if ($this->queue) {
-            return Task::on('qbwc_queue')->where('queue_id', $this->queue->id)->where('status', 'pending')->count();
+            return Task::on('qbwc_queue')
+                ->where('queue_id', $this->queue->id)
+                ->where('status', 'pending')
+                ->orWhere('queue_id', $this->queue->id)
+                ->where('status', 'processing')
+                ->count();
         }
 
         return 0;
