@@ -186,8 +186,8 @@ class SoapController extends Controller
 
         try {
             $response = "Ticket: {$parameters->getTicket()} | ";
-            $response .= "Hresult: {$parameters->getHresult()} | ";
-            $response .= "Message: {$parameters->getMessage()}";
+            $response .= "Hresult: {$parameters->hresult} | ";
+            $response .= "Message: {$parameters->message}";
 
             return new ConnectionErrorResponse($response);
         } catch (\Exception $e) {
