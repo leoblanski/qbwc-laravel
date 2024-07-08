@@ -151,19 +151,7 @@ class QueueService
                         $iterator = $task->iterator;
                         $iteratorId = $task->iterator_id;
                         $loopCount = $task->loop_count;
-
-                        $task->iterator = 'Continue';
-                        $task->increment('loop_count');
-
-                        if ($task->loops_remaining && $task->loops_remaining > 0) {
-                            $task->decrement('loops_remaining');
-
-                            if ($task->loops_remaining == 0) {
-                                $task->status = 'completed';
-                            }
-                        }
                     }
-                    
 
                     $task->started_at = Carbon::now();
                     $task->status = 'processing';
@@ -206,6 +194,37 @@ class QueueService
         }        
 
         return $query;
+    }
+
+    public function updateTaskIterator($iteratorId, $remainingCount)
+    {
+        try {
+            $task = Task::on('qbwc_queue')
+                ->where('queue_id', $this->queue->id)
+                ->where('iterator_id', $iteratorId)
+                ->orWhere('queue_id', $this->queue->id)
+                ->where('iterator', 'Start')
+                ->where('status', 'processing')
+                ->first();
+
+            if ($task) {
+                if($task->iterator == 'Start') {
+                    $task->iterator = 'Continue';
+                    $task->iterator_id = $iteratorId;
+                }
+
+                $task->increment('loop_count');
+                $task->loops_remaining = $remainingCount;
+
+                if ($task->loops_remaining == 0) {
+                    $task->status = 'completed';
+                }
+
+                $task->save();
+            }
+        } catch (\Exception $e) {
+            Log::error("Failed to update task iterator: " . $e->getMessage());
+        }
     }
 
     public function markTaskCompleted(Task $task)

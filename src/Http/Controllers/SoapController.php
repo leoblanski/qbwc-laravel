@@ -149,6 +149,10 @@ class SoapController extends Controller
             $parsedData = $this->soapService->parseResponseXML($responseXML);
             $response = $parsedData->QBXMLMsgsRs;
 
+            if ($response->iteratorID && $response->iteratorRemainingCount) {
+                $this->queueService->updateTaskIterator($response->iteratorID, $response->iteratorRemainingCount);
+            }
+
             $callbackClass = $this->soapService->getCallbackClass($response);
 
             if ($callbackClass && class_exists($callbackClass)) {
