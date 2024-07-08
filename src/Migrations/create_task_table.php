@@ -13,7 +13,7 @@ return new class extends Migration
             $table->foreignId('queue_id')->constrained('queues')->onDelete('cascade');
             $table->string('task_class');
             $table->json('task_params');
-            $table->enum('iterator', ['Start', 'Continue'])->nullable();
+            $table->enum('iterator', ['Start', 'Continue', 'End'])->nullable();
             $table->string('iterator_id')->nullable();
             $table->integer('loop_count')->nullable();
             $table->integer('loops_remaining')->nullable();

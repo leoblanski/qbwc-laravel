@@ -167,7 +167,7 @@ class SoapController extends Controller
 
             $task = $this->queueService->getCurrentTask();
 
-            if ($task) {
+            if ($task && $task->loops_remaining > 0) {
                 $this->queueService->markTaskCompleted($task);
                 $percentComplete = $this->queueService->getPercentComplete();
             }

@@ -220,6 +220,7 @@ class QueueService
                 $task->loops_remaining = $remainingCount;
 
                 if ($task->loops_remaining == 0) {
+                    $task->iterator = 'End';
                     $task->status = 'completed';
                 }
 
