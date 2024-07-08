@@ -47,6 +47,8 @@ class SoapController extends Controller
 
             if ($this->ticket && $this->queueName) {
                 $this->queueService = new QueueService($this->ticket, $this->queueName);
+                $this->queueService->initializeQueue();
+                $this->initialQueueSize = $this->queueService->getInitialQueueSize();
             }
 
             ob_start();
