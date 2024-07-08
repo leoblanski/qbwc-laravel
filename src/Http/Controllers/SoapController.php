@@ -45,6 +45,10 @@ class SoapController extends Controller
             $this->server->setObject($this);
             $this->queueName = $queueName;
 
+            if ($this->ticket && $this->queueName) {
+                $this->queueService = new QueueService($this->ticket, $this->queueName);
+            }
+
             ob_start();
             $this->server->handle();
             $response = ob_get_clean();
