@@ -163,14 +163,13 @@ class SoapController extends Controller
                 $callback->handleResponse($response);
             }
 
-            $percentComplete = 100;
-
             $task = $this->queueService->getCurrentTask();
-
-            if ($task && $task->loops_remaining == 0) {
+            
+            if ($task && $task->iterator != 'Continue') {
                 $this->queueService->markTaskCompleted($task);
-                $percentComplete = $this->queueService->getPercentComplete();
             }
+
+            $percentComplete = $this->queueService->getPercentComplete();
 
             return new ReceiveResponseXMLResponse($percentComplete);
         } catch (\Exception $e) {
