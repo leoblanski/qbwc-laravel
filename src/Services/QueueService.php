@@ -93,7 +93,18 @@ class QueueService
         $remainingTasks = $this->getRemainingTasks();
 
         if ($this->initialQueueSize > 0) {
-            return 100 - (($remainingTasks / $this->initialQueueSize) * 100);
+            
+            $taskPercentage = 100 - (($remainingTasks / $this->initialQueueSize) * 100);
+
+            if ($this->taskIterations) {
+                $totalIterations = $this->taskIterations['remaining'] + $this->taskIterations['processed'];
+                $iterationPercentage = ($this->taskIterations['processed'] / $totalIterations) * 100;
+
+                return 100 - ((($iterationPercentage / $remainingTasks) * $totalIterations) + $taskPercentage) * 100;
+            }
+
+            return $taskPercentage;
+
         }
 
         return 100;
@@ -204,6 +215,14 @@ class QueueService
         return $query;
     }
 
+    private function setRemainingIterations($processedCount, $remainingCount)
+    {
+        $this->taskIterations = [
+            'processed' => $processedCount,
+            'remaining' => $remainingCount
+        ];
+    }
+
     public function updateTaskIterator($iteratorId, $remainingCount)
     {
         try {
@@ -216,6 +235,7 @@ class QueueService
                 ->first();
 
             if ($task) {
+                $this->setRemainingIterations($task->loop_count, $remainingCount);
                 if($task->iterator == 'Start') {
                     $task->iterator = 'Continue';
                     $task->iterator_id = $iteratorId;
