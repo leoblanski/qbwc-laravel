@@ -98,9 +98,9 @@ class QueueService
 
             if ($this->taskIterations) {
                 $totalIterations = $this->taskIterations['remaining'] + $this->taskIterations['processed'];
-                $iterationPercentage = ($this->taskIterations['processed'] / $totalIterations) * 100;
+                $iterationPercentage = ($this->taskIterations['processed'] / $totalIterations);
 
-                return 100 - ((($iterationPercentage / $remainingTasks) * $totalIterations) + $taskPercentage) * 100;
+                return ((($iterationPercentage / $remainingTasks) * $totalIterations) + $taskPercentage);
             }
 
             return $taskPercentage;
