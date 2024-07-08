@@ -162,6 +162,12 @@ class QueueService
                 if ($task) {
                     $taskClass = $task->task_class;
                     $taskParams = $task->task_params;
+
+                    if ($task->status == 'pending') {
+                        $task->started_at = Carbon::now();
+                        $task->status = 'processing';
+                    }
+
                     $iterator = null;
                     $iteratorId = null;
                     $loopCount = null;
@@ -172,8 +178,6 @@ class QueueService
                         $loopCount = $task->loop_count;
                     }
 
-                    $task->started_at = Carbon::now();
-                    $task->status = 'processing';
                     $task->save();
     
                     return new $taskClass($taskParams, null, $loopCount, $iterator, $iteratorId);
