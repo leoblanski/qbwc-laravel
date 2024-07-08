@@ -21,6 +21,7 @@ use SoapServer;
 class SoapController extends Controller
 {
     protected $server;
+    protected $queueName;
     protected $queueService;
     protected $initialQueueSize;
     protected $soapService;
@@ -42,6 +43,7 @@ class SoapController extends Controller
     {
         try {
             $this->server->setObject($this);
+            $this->queueName = $queueName;
 
             ob_start();
             $this->server->handle();
@@ -89,7 +91,7 @@ class SoapController extends Controller
             ) {
                 $this->soapService->generateTicket();
                 $this->ticket = $this->soapService->getCachedTicket();
-                $this->queueService = new QueueService($this->ticket, $queueName);
+                $this->queueService = new QueueService($this->ticket, $this->queueName);
                 $this->queueService->initializeQueue();
                 $this->initialQueueSize = $this->queueService->getInitialQueueSize();
 

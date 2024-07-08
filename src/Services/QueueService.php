@@ -17,6 +17,7 @@ class QueueService
 
     public function __construct($ticket, $queueName)
     {
+        $this->ticket = $ticket;
         $this->queueName = $queueName;
     }
 
