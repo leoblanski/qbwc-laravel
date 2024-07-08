@@ -149,8 +149,8 @@ class SoapController extends Controller
             $parsedData = $this->soapService->parseResponseXML($responseXML);
             $response = $parsedData->QBXMLMsgsRs;
 
-            $iteratorId = $response?->CustomerQueryRs?->attributes()?->iteratorID->__toString();
-            $iteratorRemainingCount = $response?->CustomerQueryRs?->attributes()?->iteratorRemainingCount->__toString();
+            $iteratorId = $response?->children()?->attributes()?->iteratorID->__toString();
+            $iteratorRemainingCount = $response?->children()?->attributes()?->iteratorRemainingCount->__toString();
 
             if ($iteratorId && $iteratorRemainingCount) {
                 $this->queueService->updateTaskIterator($iteratorId, $iteratorRemainingCount);

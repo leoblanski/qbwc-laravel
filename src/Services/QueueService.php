@@ -137,6 +137,9 @@ class QueueService
                 $task = Task::on('qbwc_queue')
                     ->where('queue_id', $this->queue->id)
                     ->where('status', 'pending')
+                    ->orWhere('queue_id', $this->queue->id)
+                    ->where('status', 'processing')
+                    ->where('iterator', 'Continue')
                     ->orderBy('order')
                     ->first();
 
