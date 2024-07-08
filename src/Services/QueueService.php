@@ -153,10 +153,10 @@ class QueueService
                         $loopCount = $task->loop_count;
 
                         $task->iterator = 'Continue';
-                        $task->loop_count->increment();
+                        $task->increment('loop_count');
 
                         if ($task->loops_remaining && $task->loops_remaining > 0) {
-                            $task->loops_remaining->decrement();
+                            $task->decrement('loops_remaining');
 
                             if ($task->loops_remaining == 0) {
                                 $task->status = 'completed';
