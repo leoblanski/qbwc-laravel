@@ -97,7 +97,7 @@ class QueueService
             
             $taskPercentage = 100 - (($remainingTasks / $this->initialQueueSize) * 100);
 
-            if ($task->iterator == 'Continue') {
+            if ($task && $task->iterator == 'Continue') {
                 $totalIterations = $task->loops_remaining + $task->loop_count;
                 $iterationPercentage = ($task->loop_count / $totalIterations);
 
