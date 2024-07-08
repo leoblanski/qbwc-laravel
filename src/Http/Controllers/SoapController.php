@@ -152,7 +152,7 @@ class SoapController extends Controller
             $iteratorId = $response?->children()?->attributes()?->iteratorID->__toString();
             $iteratorRemainingCount = $response?->children()?->attributes()?->iteratorRemainingCount->__toString();
 
-            if ($iteratorId && $iteratorRemainingCount) {
+            if ($iteratorId && $iteratorRemainingCount >= 0) {
                 $this->queueService->updateTaskIterator($iteratorId, $iteratorRemainingCount);
             }
 
