@@ -10,11 +10,16 @@ class QbxmlQuery extends AbstractStructBase
     protected $parameters;
     protected $responseOptions;
     protected $innerXml;
+    protected $iterator;
+    protected $iteratorId;
 
     public function __construct(array $parameters = [], array $responseOptions = null, string $requestId = null, string $iterator = null, string $iteratorId = null)
     {
         $this->parameters = $parameters ?: ['MaxReturned' => 100];
         $this->responseOptions = $responseOptions;
+        $this->requestId = $requestId;
+        $this->iterator = $iterator;
+        $this->iteratorId = $iteratorId;
         $this->setInnerXml($this->createInnerXml($requestId, $iterator, $iteratorId));
     }
 
@@ -30,7 +35,7 @@ class QbxmlQuery extends AbstractStructBase
         } else {
             $this->parameters[$keys] = $value;
         }
-        $this->setInnerXml($this->createInnerXml(null, null, null));
+        $this->setInnerXml($this->createInnerXml($this->requestId, $this->iterator, $this->iteratorId));
     }
 
     private function setNestedParameter(&$array, $keys, $value)
