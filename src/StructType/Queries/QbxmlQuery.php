@@ -30,7 +30,7 @@ class QbxmlQuery extends AbstractStructBase
         } else {
             $this->parameters[$keys] = $value;
         }
-        $this->setInnerXml($this->createInnerXml());
+        $this->setInnerXml($this->createInnerXml(null, null, null));
     }
 
     private function setNestedParameter(&$array, $keys, $value)
