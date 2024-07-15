@@ -23,17 +23,17 @@ class QbxmlQuery extends AbstractStructBase
         return $this->parameters;
     }
 
-    public function setParameter($keys, $value)
+    public function setParameter($keys, $value, $append = false)
     {
         if (is_array($keys)) {
-            $this->setNestedParameter($this->parameters, $keys, $value);
+            $this->setNestedParameter($this->parameters, $keys, $value, $append);
         } else {
             $this->parameters[$keys] = $value;
         }
         $this->setInnerXml($this->createInnerXml(null, null, null));
     }
 
-    private function setNestedParameter(&$array, $keys, $value)
+    private function setNestedParameter(&$array, $keys, $value, $append)
     {
         $key = array_shift($keys);
 

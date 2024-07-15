@@ -247,7 +247,8 @@ class QueueService
                         'EntityFilter',
                         'ListID'
                     ],
-                    $listId
+                    $listId,
+                    true
                 );
             }
         }
