@@ -107,10 +107,21 @@ class QbxmlQuery extends AbstractStructBase
     protected function appendParameter(DOMDocument $xml, \DOMElement $parent, $key, $value)
     {
         if (is_array($value)) {
+            if ($key == 'ListID') {
+                foreach ($value as $listId) {
+                    $element = $xml->createElement($key);
+                    $element->appendChild($xml->createTextNode($listId));
+                    $parent->appendChild($element);
+                }
+                return;
+            } 
+
             $element = $xml->createElement($key);
+
             foreach ($value as $subKey => $subValue) {
                 $this->appendParameter($xml, $element, $subKey, $subValue);
             }
+
             $parent->appendChild($element);
         } else {
             $parent->appendChild($xml->createElement($key, $value));
