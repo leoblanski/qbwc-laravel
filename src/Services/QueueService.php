@@ -5,6 +5,8 @@ namespace AaronGRTech\QbwcLaravel\Services;
 use AaronGRTech\QbwcLaravel\Models\Queue;
 use AaronGRTech\QbwcLaravel\Models\Task;
 use AaronGRTech\QbwcLaravel\Models\TaskConfig;
+use AaronGRTech\QbwcLaravel\StructType\Queries\BillQuery;
+use AaronGRTech\QbwcLaravel\StructType\Queries\InvoiceQuery;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
@@ -194,30 +196,59 @@ class QueueService
     public function setRuntimeValues($query)
     {
         foreach ($query->getParameters() as $key => $value) {
-            if ($key === 'ModifiedDateRangeFilter') {
-                if (isset($value['FromModifiedDate']) && $value['FromModifiedDate'] == '') {
-                    $query->setParameter(
-                        [
-                            'ModifiedDateRangeFilter',
-                            'FromModifiedDate'
-                        ],
-                        $this->getLastRun()->format('Y-m-d\TH:i:s')
-                    );
-                }
-
-                if (isset($value['ToModifiedDate']) && $value['ToModifiedDate'] == '') {
-                    $query->setParameter(
-                        [
-                            'ModifiedDateRangeFilter',
-                            'ToModifiedDate'
-                        ],
-                        Carbon::now()->format('Y-m-d\TH:i:s')
-                    );
-                }
+            switch ($key) {
+                case 'ModifiedDateRangeFilter':
+                    $this->setModifiedDateRangeFilter($query, $value);
+                    break;
+                case 'EntityFilter':
+                    $this->setEntityFilter($query, $value);
+                    break;
             }
         }        
 
         return $query;
+    }
+
+    protected function setModifiedDateRangeFilter($query, $value)
+    {
+        if (isset($value['FromModifiedDate']) && $value['FromModifiedDate'] == '') {
+            $query->setParameter(
+                [
+                    'ModifiedDateRangeFilter',
+                    'FromModifiedDate'
+                ],
+                $this->getLastRun()->format('Y-m-d\TH:i:s')
+            );
+        }
+
+        if (isset($value['ToModifiedDate']) && $value['ToModifiedDate'] == '') {
+            $query->setParameter(
+                [
+                    'ModifiedDateRangeFilter',
+                    'ToModifiedDate'
+                ],
+                Carbon::now()->format('Y-m-d\TH:i:s')
+            );
+        }
+    }
+
+    protected function setEntityFilter($query, $value)
+    {
+        if ($value == '') {
+            if ($query instanceof BillQuery) {
+                $listIds = config('qbwc.model_map.Vendor')::pluck('list_id')->unique();
+            } elseif ($query instanceof InvoiceQuery) {
+                $listIds = config('qbwc.model_map.Customer')::pluck('list_id')->unique();
+            }
+
+            foreach ($listIds as $listId) {
+                $query->setParameter(
+                    'EntityFilter',
+                    'ListID',
+                    $listId
+                );
+            }
+        }
     }
 
     public function updateTaskIterator($iteratorId, $remainingCount)

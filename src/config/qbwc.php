@@ -13,16 +13,6 @@ return [
         'prefix' => env('QBWC_ROUTE_PREFIX', 'soap'),
         'middleware' => []
     ],
-    'queue' => [
-        'max_returned' => env('QBWC_MAX_RETURNED', 100),
-        'queries' => [
-            [
-                'class' => \AaronGRTech\QbwcLaravel\StructType\Queries\InvoiceQuery::class,
-                'params' => ['MaxReturned' => 1]
-            ],
-            // Add more queries as needed
-        ],
-    ],
     'callback_map' => [
         'AccountQueryRs' => \App\Callbacks\AccountCallback::class,
         'BillQueryRs' => \App\Callbacks\BillCallback::class,
@@ -38,5 +28,9 @@ return [
         'SalesOrderQueryRs' => \App\Callbacks\SalesOrderCallback::class,
         'SalesReceiptQueryRs' => \App\Callbacks\SalesReceiptCallback::class,
         'VendorQueryRs' => \App\Callbacks\VendorCallback::class,
+    ],
+    'model_map' => [
+        'Customer' => \App\Models\Customer::class,
+        'Vendor' => \App\Models\Vendor::class,
     ],
 ];
