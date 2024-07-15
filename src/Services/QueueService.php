@@ -241,16 +241,13 @@ class QueueService
                 $listIds = config('qbwc.model_map.Customer')::pluck('list_id')->unique();
             }
 
-            foreach ($listIds as $listId) {
-                $query->setParameter(
-                    [
-                        'EntityFilter',
-                        'ListID'
-                    ],
-                    $listId,
-                    true
-                );
-            }
+            $query->setParameter(
+                [
+                    'EntityFilter',
+                    'ListID'
+                ],
+                $listIds->toArray()
+            );
         }
     }
 
