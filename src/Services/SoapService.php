@@ -28,6 +28,11 @@ class SoapService
         return Cache::get($this->cacheKey);
     }
 
+    protected function refreshTicket()
+    {
+        Cache::put($this->cacheKey, $this->ticket, now()->addMinutes(2));
+    }
+
     public function forgetCachedTicket()
     {
         Cache::forget($this->cacheKey);
@@ -35,7 +40,13 @@ class SoapService
 
     public function validateTicket($ticket)
     {
-        return $ticket == $this->ticket;
+        $match = $ticket == $this->ticket;
+
+        if ($match) {
+            $this->refreshTicket();
+        }
+
+        return $match;
     }
 
     public function handleInvalidTicket($responseClass, $responseParams = null)
