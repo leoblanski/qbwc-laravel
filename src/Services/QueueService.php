@@ -243,8 +243,10 @@ class QueueService
 
             foreach ($listIds as $listId) {
                 $query->setParameter(
-                    'EntityFilter',
-                    'ListID',
+                    [
+                        'EntityFilter',
+                        'ListID'
+                    ],
                     $listId
                 );
             }
