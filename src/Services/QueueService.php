@@ -234,7 +234,7 @@ class QueueService
 
     protected function setEntityFilter($query, $value)
     {
-        if ($value == '') {
+        if (isset($value['ListID']) && $value['ListID'] == '') {
             if ($query instanceof BillQuery) {
                 $listIds = config('qbwc.model_map.Vendor')::pluck('list_id')->unique();
             } elseif ($query instanceof InvoiceQuery) {
