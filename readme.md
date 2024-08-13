@@ -1,6 +1,6 @@
 # QBWC Laravel
 
-**QBWC Laravel** is a Laravel-flavored QuickBooks Web Connector package that facilitates communication with QuickBooks Desktop through SOAP services.
+**QBWC Laravel** is a Laravel-flavored QuickBooks Web Connector package. This library is still a work in progress but is largely complete and stable, offering communication with QuickBooks Desktop through SOAP services.
 
 ## Installation
 
@@ -80,30 +80,6 @@ The `SoapController` handles various SOAP requests:
   - Method: `receiveResponseXML`
   - Request: `POST`
 
-### Example
-
-Here is an example of how to use the `Authenticate` service:
-
-```php
-use AaronGRTech\QbwcLaravel\ServiceType\Authenticate;
-use AaronGRTech\QbwcLaravel\StructType\Authenticate as AuthenticateStruct;
-use AaronGRTech\QbwcLaravel\StructType\AuthenticateResponse;
-
-$options = [
-    \WsdlToPhp\PackageBase\AbstractSoapClientBase::WSDL_URL => storage_path('app/wsdl/QBWebConnectorSvc.wsdl'),
-    \WsdlToPhp\PackageBase\AbstractSoapClientBase::WSDL_CLASSMAP => \AaronGRTech\QbwcLaravel\ClassMap::get(),
-];
-
-$service = new Authenticate($options);
-$parameters = new AuthenticateStruct('username', 'password');
-$response = $service->authenticate($parameters);
-
-if ($response instanceof AuthenticateResponse) {
-    // Handle the response
-} else {
-    // Handle the error
-}
-```
 ## Post-Installation Steps
 
 After installing this package, please update your application's `composer.json` file to autoload the callbacks:
