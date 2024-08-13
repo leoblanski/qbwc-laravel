@@ -1,6 +1,6 @@
 <?php
 
-$qbwc_mo_namespace = env('QBWC_MODEL_NAMESPACE') ? env('QBWC_MODEL_NAMESPACE') . '\\' : '';
+$qbwc_model_namespace = env('QBWC_MODEL_NAMESPACE') ? env('QBWC_MODEL_NAMESPACE') . '\\' : '';
 
 return [
     'user' => env('QBWC_USER', 'Admin'),
