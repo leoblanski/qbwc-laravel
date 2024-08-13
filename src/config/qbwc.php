@@ -1,5 +1,7 @@
 <?php
 
+$qbwc_mo_namespace = env('QBWC_MODEL_NAMESPACE') ? env('QBWC_MODEL_NAMESPACE') . '\\' : '';
+
 return [
     'user' => env('QBWC_USER', 'Admin'),
     'password' => env('QBWC_PASSWORD'),
@@ -30,19 +32,19 @@ return [
         'VendorQueryRs' => \App\Callbacks\VendorCallback::class,
     ],
     'model_map' => [
-        'Account' => \App\Models\Account::class,
-        'Bill' => \App\Models\Bill::class,
-        'Credit' => \App\Models\Credit::class,
-        'Customer' => \App\Models\Customer::class,
-        'Employee' => \App\Models\Employee::class,
-        'Estimate' => \App\Models\Estimate::class,
-        'Invoice' => \App\Models\Invoice::class,
-        'Item' => \App\Models\Item::class,
-        'JournalEntry' => \App\Models\JournalEntry::class,
-        'PurchaseOrder' => \App\Models\PurchaseOrder::class,
-        'ReceivePayment' => \App\Models\ReceivePayment::class,
-        'SalesOrder' => \App\Models\SalesOrder::class,
-        'SalesReceipt' => \App\Models\SalesReceipt::class,
-        'Vendor' => \App\Models\Vendor::class,
+        'Account' => 'App\\Models\\' . $qbwc_model_namespace . 'Account::class',
+        'Bill' => 'App\\Models\\' . $qbwc_model_namespace . 'Bill::class',
+        'Credit' => 'App\\Models\\' . $qbwc_model_namespace . 'Credit::class',
+        'Customer' => 'App\\Models\\' . $qbwc_model_namespace . 'Customer::class',
+        'Employee' => 'App\\Models\\' . $qbwc_model_namespace . 'Employee::class',
+        'Estimate' => 'App\\Models\\' . $qbwc_model_namespace . 'Estimate::class',
+        'Invoice' => 'App\\Models\\' . $qbwc_model_namespace . 'Invoice::class',
+        'Item' => 'App\\Models\\' . $qbwc_model_namespace . 'Item::class',
+        'JournalEntry' => 'App\\Models\\' . $qbwc_model_namespace . 'JournalEntry::class',
+        'PurchaseOrder' => 'App\\Models\\' . $qbwc_model_namespace . 'PurchaseOrder::class',
+        'ReceivePayment' => 'App\\Models\\' . $qbwc_model_namespace . 'ReceivePayment::class',
+        'SalesOrder' => 'App\\Models\\' . $qbwc_model_namespace . 'SalesOrder::class',
+        'SalesReceipt' => 'App\\Models\\' . $qbwc_model_namespace . 'SalesReceipt::class',
+        'Vendor' => 'App\\Models\\' . $qbwc_model_namespace . 'Vendor::class'
     ],
 ];
