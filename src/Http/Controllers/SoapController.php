@@ -86,10 +86,7 @@ class SoapController extends Controller
     public function authenticate($parameters)
     {
         try {
-            $response = new ArrayOfString([
-                '',
-                'nvu'
-            ]);
+            $response = new ArrayOfString(['', 'nvu']);
 
             if (
                 $parameters->getStrUserName() == config('qbwc.user') ||
@@ -101,10 +98,7 @@ class SoapController extends Controller
                 $this->queueService->initializeQueue();
                 $this->initialQueueSize = $this->queueService->getInitialQueueSize();
 
-                $response = new ArrayOfString([
-                    $this->ticket,
-                    ''
-                ]);
+                $response = new ArrayOfString([$this->ticket, '']);
             }
             return new AuthenticateResponse($response);
         } catch (\Exception $e) {
