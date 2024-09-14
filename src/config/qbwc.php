@@ -18,6 +18,7 @@ return [
     'callback_map' => [
         'AccountQueryRs' => \App\Callbacks\AccountCallback::class,
         'BillQueryRs' => \App\Callbacks\BillCallback::class,
+        'CheckQueryRs' => \App\Callbacks\CheckCallback::class,
         'CreditMemoQueryRs' => \App\Callbacks\CreditMemoCallback::class,
         'CustomerQueryRs' => \App\Callbacks\CustomerCallback::class,
         'EmployeeQueryRs' => \App\Callbacks\EmployeeCallback::class,
@@ -34,6 +35,7 @@ return [
     'model_map' => [
         'Account' => 'App\\Models\\' . $qbwc_model_namespace . 'Account::class',
         'Bill' => 'App\\Models\\' . $qbwc_model_namespace . 'Bill::class',
+        'Check' => 'App\\Models\\' . $qbwc_model_namespace . 'Check::class',
         'Credit' => 'App\\Models\\' . $qbwc_model_namespace . 'Credit::class',
         'Customer' => 'App\\Models\\' . $qbwc_model_namespace . 'Customer::class',
         'Employee' => 'App\\Models\\' . $qbwc_model_namespace . 'Employee::class',
