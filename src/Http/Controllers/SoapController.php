@@ -100,7 +100,11 @@ class SoapController extends Controller
                 $this->queueService->initializeQueue();
                 $this->initialQueueSize = $this->queueService->getInitialQueueSize();
 
-                $response = new ArrayOfString([$this->ticket, '']);
+                $filePath = '';
+                if ($this->file) {
+                    $filePath = config("qbwc.files.{$this->file}");
+                }
+                $response = new ArrayOfString([$this->ticket, $filePath]);
             }
             return new AuthenticateResponse($response);
         } catch (\Exception $e) {

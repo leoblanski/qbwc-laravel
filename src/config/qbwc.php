@@ -49,4 +49,7 @@ return [
         'SalesReceipt' => 'App\\Models\\' . $qbwc_model_namespace . 'SalesReceipt::class',
         'Vendor' => 'App\\Models\\' . $qbwc_model_namespace . 'Vendor::class'
     ],
+    'files' => [
+        // 'file' => "path/to/your/file",
+    ]
 ];
