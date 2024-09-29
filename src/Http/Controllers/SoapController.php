@@ -104,6 +104,7 @@ class SoapController extends Controller
                 if ($this->file) {
                     $filePath = config("qbwc.files.{$this->file}");
                 }
+
                 $response = new ArrayOfString([$this->ticket, $filePath]);
             }
             return new AuthenticateResponse($response);
