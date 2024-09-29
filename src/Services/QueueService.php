@@ -203,6 +203,12 @@ class QueueService
                 case 'TxnDateRangeFilter':
                     $this->setTxnDateRangeFilter($query, $value);
                     break;
+                case 'FromModifiedDate':
+                    $this->setFromModifiedDate($query, $value);
+                    break;
+                case 'ToModifiedDate':
+                    $this->setToModifiedDate($query, $value);
+                    break;
                 case 'EntityFilter':
                     $this->setEntityFilter($query, $value);
                     break;
@@ -254,6 +260,26 @@ class QueueService
                     'ToTxnDate'
                 ],
                 Carbon::now()->format('Y-m-d')
+            );
+        }
+    }
+
+    protected function setFromModifiedDate($query, $value)
+    {
+        if ($value == '') {
+            $query->setParameter(
+                'FromModifiedDate',
+                $this->getLastRun()->format('Y-m-d\TH:i:s')
+            );
+        }
+    }
+
+    protected function setToModifiedDate($query, $value)
+    {
+        if ($value == '') {
+            $query->setParameter(
+                'ToModifiedDate',
+                Carbon::now()->format('Y-m-d\TH:i:s')
             );
         }
     }
