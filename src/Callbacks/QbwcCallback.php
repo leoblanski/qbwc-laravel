@@ -9,5 +9,5 @@ abstract class QbwcCallback
      *
      * @param \SimpleXMLElement $data Parsed XML data from the response.
      */
-    abstract public function handleResponse($data);
+    abstract public function handleResponse($data, $file = null);
 }

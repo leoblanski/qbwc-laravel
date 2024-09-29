@@ -22,6 +22,7 @@ class SoapController extends Controller
 {
     protected $server;
     protected $queueName;
+    protected $file;
     protected $queueService;
     protected $initialQueueSize;
     protected $soapService;
@@ -39,11 +40,12 @@ class SoapController extends Controller
         $this->ticket = $this->soapService->getCachedTicket();
     }
 
-    public function handle($queueName = null)
+    public function handle($queueName = null, $file = null)
     {
         try {
             $this->server->setObject($this);
             $this->queueName = $queueName;
+            $this->file = $file;
 
             if ($this->ticket && $this->queueName) {
                 $this->queueService = new QueueService($this->ticket, $this->queueName);
@@ -154,7 +156,7 @@ class SoapController extends Controller
 
             if ($callbackClass && class_exists($callbackClass)) {
                 $callback = new $callbackClass();
-                $callback->handleResponse($response);
+                $callback->handleResponse($response, $this->file);
             }
 
             $task = $this->queueService->getCurrentTask();

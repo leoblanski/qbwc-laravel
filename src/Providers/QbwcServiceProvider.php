@@ -86,7 +86,7 @@ class QbwcServiceProvider extends ServiceProvider
         Route::middleware(config('qbwc.routes.middleware'))
             ->prefix($prefix)
             ->group(function () use ($controller) {
-                Route::post('/{queueName?}', [$controller, 'handle']);
+                Route::post('/{queueName?}/{file?}', [$controller, 'handle']);
             });
     }
 }
