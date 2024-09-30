@@ -130,7 +130,7 @@ class QueueService
                               ->orderBy('completed_at', 'desc')
                               ->first();
 
-            return new Carbon($lastQueue->initialized_at);
+            return new Carbon($lastQueue?->initialized_at ?? Carbon::now()->subHours(1));
         } catch (\Exception $e) {
             Log::error("Failed to get last run: " . $e->getMessage());
         }
