@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::connection('qbwc_queue')->create('queues', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('file')->nullable();
             $table->string('ticket')->nullable();
             $table->boolean('initialized')->default(false);
             $table->integer('total_tasks')->nullable();

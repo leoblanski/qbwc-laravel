@@ -13,14 +13,16 @@ use Illuminate\Support\Facades\Log;
 class QueueService
 {
     protected $queue;
+    protected $file;
     protected $ticket;
     protected $queueName;
     protected $initialQueueSize;
 
-    public function __construct($ticket, $queueName)
+    public function __construct($ticket, $queueName, $file = null)
     {
         $this->ticket = $ticket;
         $this->queueName = $queueName;
+        $this->file = $file;
     }
 
     public function initializeQueue()
@@ -33,6 +35,7 @@ class QueueService
                 ],
                 [
                     'name' => $this->queueName,
+                    'file' => $this->file,
                     'ticket' => $this->ticket,
                     'initialized' => true,
                     'initialized_at' => Carbon::now(),
@@ -118,6 +121,9 @@ class QueueService
         try {
             $lastQueue = Queue::on('qbwc_queue')
                               ->where('name', $this->queueName)
+                              ->when($this->file, function ($query) {
+                                  return $query->where('file', $this->file);
+                              })
                               ->where('initialized', false)
                               ->where('tasks_completed', '>', 0)
                               ->whereNotNull('completed_at')

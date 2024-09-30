@@ -48,7 +48,7 @@ class SoapController extends Controller
             $this->file = $file;
 
             if ($this->ticket && $this->queueName) {
-                $this->queueService = new QueueService($this->ticket, $this->queueName);
+                $this->queueService = new QueueService($this->ticket, $this->queueName, $this->file);
                 $this->queueService->initializeQueue();
                 $this->initialQueueSize = $this->queueService->getInitialQueueSize();
             }
