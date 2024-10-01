@@ -17,12 +17,14 @@ class QueueService
     protected $ticket;
     protected $queueName;
     protected $initialQueueSize;
+    protected $startOfDay;
 
     public function __construct($ticket, $queueName, $file = null)
     {
         $this->ticket = $ticket;
         $this->queueName = $queueName;
         $this->file = $file;
+        $this->startOfDay = Carbon::now()->startOfDay();
     }
 
     public function initializeQueue()
@@ -131,7 +133,7 @@ class QueueService
                               ->orderBy('completed_at', 'desc')
                               ->first();
 
-            return new Carbon($lastQueue?->initialized_at ?? Carbon::now()->subHours(1));
+            return new Carbon($lastQueue?->initialized_at ?? $this->startOfDay);
         } catch (\Exception $e) {
             Log::error("Failed to get last run: " . $e->getMessage());
         }
