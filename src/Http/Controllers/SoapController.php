@@ -190,6 +190,9 @@ class SoapController extends Controller
             $response .= "Hresult: {$parameters->hresult()} | ";
             $response .= "Message: {$parameters->getMessage()}";
 
+            $this->queueService->markQueueFailed();
+            $this->soapService->forgetCachedTicket();
+
             return new ConnectionErrorResponse($response);
         } catch (\Exception $e) {
             Log::error("Connection error: " . $e->getMessage());
@@ -205,6 +208,9 @@ class SoapController extends Controller
 
         try {
             $response = "Ticket: {$parameters->getTicket()}";
+            
+            $this->queueService->markQueueFailed();
+            $this->soapService->forgetCachedTicket();
 
             return new GetLastErrorResponse($response);
         } catch (\Exception $e) {

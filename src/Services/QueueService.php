@@ -349,8 +349,7 @@ class QueueService
                 'completed_at' => Carbon::now(),
             ]);
 
-            $queue = $task->queue;
-            $queue->increment('tasks_completed');
+            $this->queue->increment('tasks_completed');
         } catch (\Exception $e) {
             Log::error("Failed to mark task as completed: " . $e->getMessage());
         }
@@ -364,8 +363,7 @@ class QueueService
                 'error_message' => $errorMessage,
             ]);
 
-            $queue = $task->queue;
-            $queue->increment('tasks_failed');
+            $this->queue->increment('tasks_failed');
             Log::error("Task failed: " . $errorMessage);
         } catch (\Exception $e) {
             Log::error("Failed to mark task as failed: " . $e->getMessage());
@@ -383,6 +381,21 @@ class QueueService
             );
         } catch (\Exception $e) {
             Log::error("Failed to mark queue as completed: " . $e->getMessage());
+        }
+    }
+
+    public function markQueueFailed()
+    {
+        try {
+            $this->queue->update(
+                [
+                    'initialized' => false,
+                    'completed_at' => Carbon::now()
+                ]
+            );
+            $this->queue->increment('tasks_failed');
+        } catch (\Exception $e) {
+            Log::error("Failed to mark queue as failed: " . $e->getMessage());
         }
     }
 }
