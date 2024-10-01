@@ -126,6 +126,7 @@ class QueueService
                               })
                               ->where('initialized', false)
                               ->where('tasks_completed', '>', 0)
+                              ->where('tasks_failed', '=', 0)
                               ->whereNotNull('completed_at')
                               ->orderBy('completed_at', 'desc')
                               ->first();
