@@ -345,9 +345,10 @@ class QueueService
         }
     }
 
-    public function markTaskCompleted(Task $task)
+    public function markTaskCompleted($task)
     {
         try {
+            $task = Task::on('qbwc_queue')->find($task->id);
             $task->status = 'completed';
             $task->completed_at = Carbon::now()->format('Y-m-d H:i:s');
             $task->save();
@@ -359,9 +360,10 @@ class QueueService
         }
     }
 
-    public function markTaskFailed(Task $task, $errorMessage)
+    public function markTaskFailed($task, $errorMessage)
     {
         try {
+            $task = Task::on('qbwc_queue')->find($task->id);
             $task->status = 'failed';
             $task->error_message = $errorMessage;
             $task->save();
