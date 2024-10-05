@@ -50,7 +50,8 @@ class QueueService
                                           ->orderBy('order')
                                           ->get();
 
-                $this->queue->update(['total_tasks' => $taskConfigs->count()]);
+                $this->queue->total_tasks = $taskConfigs->count();
+                $this->queue->save();
 
                 foreach ($taskConfigs as $taskConfig) {
                     Task::on('qbwc_queue')->create([
@@ -347,12 +348,12 @@ class QueueService
     public function markTaskCompleted(Task $task)
     {
         try {
-            $task->update([
-                'status' => 'completed',
-                'completed_at' => Carbon::now(),
-            ]);
+            $task->status = 'completed';
+            $task->completed_at = Carbon::now()->format('Y-m-d H:i:s');
+            $task->save();
 
-            $this->queue->increment('tasks_completed');
+            $this->queue->tasks_completed = $this->queue->tasks_completed + 1;
+            $this->queue->save();
         } catch (\Exception $e) {
             Log::error("Failed to mark task as completed: " . $e->getMessage());
         }
@@ -361,12 +362,12 @@ class QueueService
     public function markTaskFailed(Task $task, $errorMessage)
     {
         try {
-            $task->update([
-                'status' => 'failed',
-                'error_message' => $errorMessage,
-            ]);
+            $task->status = 'failed';
+            $task->error_message = $errorMessage;
+            $task->save();
 
-            $this->queue->increment('tasks_failed');
+            $this->queue->tasks_failed = $this->queue->tasks_failed + 1;
+            $this->queue->save();
             Log::error("Task failed: " . $errorMessage);
         } catch (\Exception $e) {
             Log::error("Failed to mark task as failed: " . $e->getMessage());
@@ -376,12 +377,9 @@ class QueueService
     public function markQueueCompleted()
     {
         try {
-            $this->queue->update(
-                [
-                    'initialized' => false,
-                    'completed_at' => Carbon::now()
-                ]
-            );
+            $this->queue->inititialized = false;
+            $this->queue->completed_at = Carbon::now()->format('Y-m-d H:i:s');
+            $this->queue->save();
         } catch (\Exception $e) {
             Log::error("Failed to mark queue as completed: " . $e->getMessage());
         }
@@ -390,13 +388,12 @@ class QueueService
     public function markQueueFailed()
     {
         try {
-            $this->queue->update(
-                [
-                    'initialized' => false,
-                    'completed_at' => Carbon::now()
-                ]
-            );
-            $this->queue->increment('tasks_failed');
+            $this->queue->inititialized = false;
+            $this->queue->completed_at = Carbon::now()->format('Y-m-d H:i:s');
+            $this->queue->save();
+
+            // $this->queue->tasks_failed = $this->queue->tasks_failed + 1;
+            // $this->queue->save();
         } catch (\Exception $e) {
             Log::error("Failed to mark queue as failed: " . $e->getMessage());
         }
