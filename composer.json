@@ -14,7 +14,8 @@
         "ext-dom": "*",
         "ext-mbstring": "*",
         "ext-soap": "*",
-        "wsdltophp/packagebase": "~5.0"
+        "wsdltophp/packagebase": "~5.0",
+        "nesbot/carbon": "^3.8"
     },
     "autoload": {
         "psr-4": {
