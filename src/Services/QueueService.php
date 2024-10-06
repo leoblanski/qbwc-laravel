@@ -379,7 +379,7 @@ class QueueService
     public function markQueueCompleted()
     {
         try {
-            $this->queue->inititialized = false;
+            $this->queue->initialized = false;
             $this->queue->completed_at = Carbon::now()->format('Y-m-d H:i:s');
             $this->queue->save();
         } catch (\Exception $e) {
@@ -390,7 +390,7 @@ class QueueService
     public function markQueueFailed()
     {
         try {
-            $this->queue->inititialized = false;
+            $this->queue->initialized = false;
             $this->queue->completed_at = Carbon::now()->format('Y-m-d H:i:s');
             $this->queue->save();
 
