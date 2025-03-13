@@ -34,42 +34,42 @@ class QbwcServiceProvider extends ServiceProvider
             $packageBaseDir . '/src/config/qbwc.php' => config_path('qbwc.php'),
         ], 'qbwc-config');
 
-        $this->loadMigrationsFrom($packageBaseDir . '/src/Migrations');
+        // $this->loadMigrationsFrom($packageBaseDir . '/src/Migrations');
 
         $this->publishes([
-            $packageBaseDir . '/src/Migrations/create_queues_table.php' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_queues_table.php'),
-            $packageBaseDir . '/src/Migrations/create_tasks_table.php' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_tasks_table.php'),
-            $packageBaseDir . '/src/Migrations/create_task_configs_table.php' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_task_configs_table.php'),
+            $packageBaseDir . '/src/Migrations/create_queues_table.php' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_qbwc_queue_table.php'),
+            $packageBaseDir . '/src/Migrations/create_task_table.php' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_qbwc_tasks_table.php'),
+            $packageBaseDir . '/src/Migrations/create_task_configs_table.php' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_qbwc_task_configs_table.php'),
         ], 'qbwc-migrations');
 
         $this->registerRoutes();
 
         $this->publishes([
-            $packageBaseDir . '/src/Callbacks/AccountCallback.php' => app_path('Callbacks/AccountCallback.php'),
-            $packageBaseDir . '/src/Callbacks/BillCallback.php' => app_path('Callbacks/BillCallback.php'),
-            $packageBaseDir . '/src/Callbacks/CreditMemoCallback.php' => app_path('Callbacks/CreditMemoCallback.php'),
-            $packageBaseDir . '/src/Callbacks/CustomerCallback.php' => app_path('Callbacks/CustomerCallback.php'),
-            $packageBaseDir . '/src/Callbacks/EmployeeCallback.php' => app_path('Callbacks/EmployeeCallback.php'),
-            $packageBaseDir . '/src/Callbacks/EstimateCallback.php' => app_path('Callbacks/EstimateCallback.php'),
-            $packageBaseDir . '/src/Callbacks/InvoiceCallback.php' => app_path('Callbacks/InvoiceCallback.php'),
-            $packageBaseDir . '/src/Callbacks/ItemCallback.php' => app_path('Callbacks/ItemCallback.php'),
-            $packageBaseDir . '/src/Callbacks/JournalEntryCallback.php' => app_path('Callbacks/JournalEntryCallback.php'),
-            $packageBaseDir . '/src/Callbacks/PurchaseOrderCallback.php' => app_path('Callbacks/PurchaseOrderCallback.php'),
-            $packageBaseDir . '/src/Callbacks/ReceivePaymentCallback.php' => app_path('Callbacks/ReceivePaymentCallback.php'),
-            $packageBaseDir . '/src/Callbacks/SalesOrderCallback.php' => app_path('Callbacks/SalesOrderCallback.php'),
-            $packageBaseDir . '/src/Callbacks/SalesReceiptCallback.php' => app_path('Callbacks/SalesReceiptCallback.php'),
-            $packageBaseDir . '/src/Callbacks/VendorCallback.php' => app_path('Callbacks/VendorCallback.php'),
+            $packageBaseDir . '/src/Callbacks/AccountCallback.php' => app_path('Quickbooks/Callbacks/AccountCallback.php'),
+            $packageBaseDir . '/src/Callbacks/BillCallback.php' => app_path('Quickbooks/Callbacks/BillCallback.php'),
+            $packageBaseDir . '/src/Callbacks/CreditMemoCallback.php' => app_path('Quickbooks/Callbacks/CreditMemoCallback.php'),
+            $packageBaseDir . '/src/Callbacks/CustomerCallback.php' => app_path('Quickbooks/Callbacks/CustomerCallback.php'),
+            $packageBaseDir . '/src/Callbacks/EmployeeCallback.php' => app_path('Quickbooks/Callbacks/EmployeeCallback.php'),
+            $packageBaseDir . '/src/Callbacks/EstimateCallback.php' => app_path('Quickbooks/Callbacks/EstimateCallback.php'),
+            $packageBaseDir . '/src/Callbacks/InvoiceCallback.php' => app_path('Quickbooks/Callbacks/InvoiceCallback.php'),
+            $packageBaseDir . '/src/Callbacks/ItemCallback.php' => app_path('Quickbooks/Callbacks/ItemCallback.php'),
+            $packageBaseDir . '/src/Callbacks/JournalEntryCallback.php' => app_path('Quickbooks/Callbacks/JournalEntryCallback.php'),
+            $packageBaseDir . '/src/Callbacks/PurchaseOrderCallback.php' => app_path('Quickbooks/Callbacks/PurchaseOrderCallback.php'),
+            $packageBaseDir . '/src/Callbacks/ReceivePaymentCallback.php' => app_path('Quickbooks/Callbacks/ReceivePaymentCallback.php'),
+            $packageBaseDir . '/src/Callbacks/SalesOrderCallback.php' => app_path('Quickbooks/Callbacks/SalesOrderCallback.php'),
+            $packageBaseDir . '/src/Callbacks/SalesReceiptCallback.php' => app_path('Quickbooks/Callbacks/SalesReceiptCallback.php'),
+            $packageBaseDir . '/src/Callbacks/VendorCallback.php' => app_path('Quickbooks/Callbacks/VendorCallback.php'),
         ], 'qbwc-callbacks');
 
         $this->publishes([
-            $packageBaseDir . '/src/Models/Qbwc/Queue.php' => app_path('Models/Qbwc/Queue.php'),
-            $packageBaseDir . '/src/Models/Qbwc/Task.php' => app_path('Models/Qbwc/Task.php'),
-            $packageBaseDir . '/src/Models/Qbwc/TaskConfig.php' => app_path('Models/Qbwc/TaskConfig.php'),
+            $packageBaseDir . '/src/Models/Queue.php' => app_path('Models/Qbwc/Queue.php'),
+            $packageBaseDir . '/src/Models/Task.php' => app_path('Models/Qbwc/Task.php'),
+            $packageBaseDir . '/src/Models/TaskConfig.php' => app_path('Models/Qbwc/TaskConfig.php'),
         ], 'qbwc-models');
 
         // Publish other resources like controllers if needed
         $this->publishes([
-            $packageBaseDir . '/src/Http/Controllers/SoapController.php' => app_path('Http/Controllers/Qbwc/SoapController.php'),
+            $packageBaseDir . '/src/Http/Controllers/SoapController.php' => app_path('Http/Controllers/SoapController.php'),
         ], 'qbwc-controllers');
     }
 
