@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AaronGRTech\QbwcLaravel\StructType;
+namespace RegalWings\QbwcLaravel\StructType;
 
 use InvalidArgumentException;
 use WsdlToPhp\PackageBase\AbstractStructBase;
@@ -43,7 +43,7 @@ class SendRequestXMLResponse extends AbstractStructBase
     /**
      * Set sendRequestXMLResult value
      * @param string $sendRequestXMLResult
-     * @return \AaronGRTech\QbwcLaravel\StructType\SendRequestXMLResponse
+     * @return \RegalWings\QbwcLaravel\StructType\SendRequestXMLResponse
      */
     public function setSendRequestXMLResult(?string $sendRequestXMLResult = null): self
     {
@@ -52,7 +52,7 @@ class SendRequestXMLResponse extends AbstractStructBase
             throw new InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sendRequestXMLResult, true), gettype($sendRequestXMLResult)), __LINE__);
         }
         $this->sendRequestXMLResult = $sendRequestXMLResult;
-        
+
         return $this;
     }
 }

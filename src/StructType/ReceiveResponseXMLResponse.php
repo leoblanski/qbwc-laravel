@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AaronGRTech\QbwcLaravel\StructType;
+namespace RegalWings\QbwcLaravel\StructType;
 
 use InvalidArgumentException;
 use WsdlToPhp\PackageBase\AbstractStructBase;
@@ -43,7 +43,7 @@ class ReceiveResponseXMLResponse extends AbstractStructBase
     /**
      * Set receiveResponseXMLResult value
      * @param int $receiveResponseXMLResult
-     * @return \AaronGRTech\QbwcLaravel\StructType\ReceiveResponseXMLResponse
+     * @return \RegalWings\QbwcLaravel\StructType\ReceiveResponseXMLResponse
      */
     public function setReceiveResponseXMLResult(int $receiveResponseXMLResult): self
     {
@@ -52,7 +52,7 @@ class ReceiveResponseXMLResponse extends AbstractStructBase
             throw new InvalidArgumentException(sprintf('Invalid value %s, please provide an integer value, %s given', var_export($receiveResponseXMLResult, true), gettype($receiveResponseXMLResult)), __LINE__);
         }
         $this->receiveResponseXMLResult = $receiveResponseXMLResult;
-        
+
         return $this;
     }
 }

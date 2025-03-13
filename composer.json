@@ -1,11 +1,11 @@
 {
-    "name": "aarongrtech/qbwc-laravel",
+    "name": "leoblanski/qbwc-laravel",
     "description": "Laravel-flavored QuickBooks Web Connector package",
     "type": "library",
     "license": "MIT",
     "authors": [
         {
-            "name": "AaronGRTech",
+            "name": "RegalWings",
             "email": "aaron@goldenruleweb.com"
         }
     ],
@@ -19,14 +19,14 @@
     },
     "autoload": {
         "psr-4": {
-            "AaronGRTech\\QbwcLaravel\\": "./src"
+            "RegalWings\\QbwcLaravel\\": "./src"
         }
     },
     "extra": {
-    "laravel": {
-        "providers": [
-            "AaronGRTech\\QbwcLaravel\\Providers\\QbwcServiceProvider"
-        ]
+        "laravel": {
+            "providers": [
+                "RegalWings\\QbwcLaravel\\Providers\\QbwcServiceProvider"
+            ]
+        }
     }
-}
 }

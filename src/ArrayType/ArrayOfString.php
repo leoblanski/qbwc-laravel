@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AaronGRTech\QbwcLaravel\ArrayType;
+namespace RegalWings\QbwcLaravel\ArrayType;
 
 use InvalidArgumentException;
 use WsdlToPhp\PackageBase\AbstractStructArrayBase;
@@ -67,7 +67,7 @@ class ArrayOfString extends AbstractStructArrayBase
             $message = sprintf('The string property can only contain items of type string, %s given', is_object($invalidValues) ? get_class($invalidValues) : (is_array($invalidValues) ? implode(', ', $invalidValues) : gettype($invalidValues)));
         }
         unset($invalidValues);
-        
+
         return $message;
     }
     /**
@@ -76,7 +76,7 @@ class ArrayOfString extends AbstractStructArrayBase
      * if the value assigned to this property is null, it is removed from this object
      * @throws InvalidArgumentException
      * @param string[] $string
-     * @return \AaronGRTech\QbwcLaravel\ArrayType\ArrayOfString
+     * @return \RegalWings\QbwcLaravel\ArrayType\ArrayOfString
      */
     public function setString(?array $string = null): self
     {
@@ -89,7 +89,7 @@ class ArrayOfString extends AbstractStructArrayBase
         } else {
             $this->string = $string;
         }
-        
+
         return $this;
     }
     /**

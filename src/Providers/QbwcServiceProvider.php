@@ -1,6 +1,6 @@
 <?php
 
-namespace AaronGRTech\QbwcLaravel\Providers;
+namespace RegalWings\QbwcLaravel\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AaronGRTech\QbwcLaravel\StructType;
+namespace RegalWings\QbwcLaravel\StructType;
 
 use InvalidArgumentException;
 use WsdlToPhp\PackageBase\AbstractStructBase;
@@ -43,7 +43,7 @@ class ConnectionErrorResponse extends AbstractStructBase
     /**
      * Set connectionErrorResult value
      * @param string $connectionErrorResult
-     * @return \AaronGRTech\QbwcLaravel\StructType\ConnectionErrorResponse
+     * @return \RegalWings\QbwcLaravel\StructType\ConnectionErrorResponse
      */
     public function setConnectionErrorResult(?string $connectionErrorResult = null): self
     {
@@ -52,7 +52,7 @@ class ConnectionErrorResponse extends AbstractStructBase
             throw new InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($connectionErrorResult, true), gettype($connectionErrorResult)), __LINE__);
         }
         $this->connectionErrorResult = $connectionErrorResult;
-        
+
         return $this;
     }
 }

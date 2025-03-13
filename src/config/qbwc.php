@@ -11,7 +11,7 @@ return [
         'version' => env('QBWC_VERSION', '1.0'),
     ],
     'routes' => [
-        'controller' => AaronGRTech\QbwcLaravel\Http\Controllers\SoapController::class,
+        'controller' => RegalWings\QbwcLaravel\Http\Controllers\SoapController::class,
         'prefix' => env('QBWC_ROUTE_PREFIX', 'soap'),
         'middleware' => []
     ],

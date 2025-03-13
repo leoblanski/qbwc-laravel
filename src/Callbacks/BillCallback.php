@@ -2,7 +2,7 @@
 
 namespace App\Callbacks;
 
-use AaronGRTech\QbwcLaravel\Callbacks\QbwcCallback;
+use RegalWings\QbwcLaravel\Callbacks\QbwcCallback;
 
 class BillCallback extends QbwcCallback
 {

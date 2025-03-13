@@ -7,7 +7,7 @@
 To install the package, run:
 
 ```bash
-composer require aarongrtech/qbwc-laravel
+composer require leoblanski/qbwc-laravel
 ```
 
 Ensure that your `composer.json` includes the necessary autoload settings:
@@ -15,13 +15,13 @@ Ensure that your `composer.json` includes the necessary autoload settings:
 ```json
 "autoload": {
     "psr-4": {
-        "AaronGRTech\\QbwcLaravel\\": "./src/AaronGRTech/QbwcLaravel"
+        "RegalWings\\QbwcLaravel\\": "./src/RegalWings/QbwcLaravel"
     }
 },
 "extra": {
     "laravel": {
         "providers": [
-            "AaronGRTech\\QbwcLaravel\\Providers\\QbwcServiceProvider"
+            "RegalWings\\QbwcLaravel\\Providers\\QbwcServiceProvider"
         ]
     }
 }
@@ -33,7 +33,7 @@ After updating Composer, add the service provider to the `config/app.php` file:
 'providers' => [
     // Other Service Providers
 
-    AaronGRTech\QbwcLaravel\Providers\QbwcServiceProvider::class,
+    RegalWings\QbwcLaravel\Providers\QbwcServiceProvider::class,
 ],
 ```
 
@@ -44,7 +44,7 @@ After updating Composer, add the service provider to the `config/app.php` file:
 Ensure that the WSDL file is available at `storage_path('app/wsdl/QBWebConnectorSvc.wsdl')`. You can publish the WSDL file to the storage directory using:
 
 ```bash
-php artisan vendor:publish --provider="AaronGRTech\QbwcLaravel\Providers\QbwcServiceProvider"
+php artisan vendor:publish --provider="RegalWings\QbwcLaravel\Providers\QbwcServiceProvider"
 ```
 
 ### Routes
@@ -106,7 +106,7 @@ This package is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Authors
 
-- AaronGRTech - [aaron@goldenruleweb.com](mailto:aaron@goldenruleweb.com)
+- RegalWings - [aaron@goldenruleweb.com](mailto:aaron@goldenruleweb.com)
 
 ## Contributing
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AaronGRTech\QbwcLaravel\StructType;
+namespace RegalWings\QbwcLaravel\StructType;
 
 use InvalidArgumentException;
 use WsdlToPhp\PackageBase\AbstractStructBase;
@@ -19,36 +19,36 @@ class AuthenticateResponse extends AbstractStructBase
      * Meta information extracted from the WSDL
      * - maxOccurs: 1
      * - minOccurs: 0
-     * @var \AaronGRTech\QbwcLaravel\ArrayType\ArrayOfString|null
+     * @var \RegalWings\QbwcLaravel\ArrayType\ArrayOfString|null
      */
-    protected ?\AaronGRTech\QbwcLaravel\ArrayType\ArrayOfString $authenticateResult = null;
+    protected ?\RegalWings\QbwcLaravel\ArrayType\ArrayOfString $authenticateResult = null;
     /**
      * Constructor method for authenticateResponse
      * @uses AuthenticateResponse::setAuthenticateResult()
-     * @param \AaronGRTech\QbwcLaravel\ArrayType\ArrayOfString $authenticateResult
+     * @param \RegalWings\QbwcLaravel\ArrayType\ArrayOfString $authenticateResult
      */
-    public function __construct(?\AaronGRTech\QbwcLaravel\ArrayType\ArrayOfString $authenticateResult = null)
+    public function __construct(?\RegalWings\QbwcLaravel\ArrayType\ArrayOfString $authenticateResult = null)
     {
         $this
             ->setAuthenticateResult($authenticateResult);
     }
     /**
      * Get authenticateResult value
-     * @return \AaronGRTech\QbwcLaravel\ArrayType\ArrayOfString|null
+     * @return \RegalWings\QbwcLaravel\ArrayType\ArrayOfString|null
      */
-    public function getAuthenticateResult(): ?\AaronGRTech\QbwcLaravel\ArrayType\ArrayOfString
+    public function getAuthenticateResult(): ?\RegalWings\QbwcLaravel\ArrayType\ArrayOfString
     {
         return $this->authenticateResult;
     }
     /**
      * Set authenticateResult value
-     * @param \AaronGRTech\QbwcLaravel\ArrayType\ArrayOfString $authenticateResult
-     * @return \AaronGRTech\QbwcLaravel\StructType\AuthenticateResponse
+     * @param \RegalWings\QbwcLaravel\ArrayType\ArrayOfString $authenticateResult
+     * @return \RegalWings\QbwcLaravel\StructType\AuthenticateResponse
      */
-    public function setAuthenticateResult(?\AaronGRTech\QbwcLaravel\ArrayType\ArrayOfString $authenticateResult = null): self
+    public function setAuthenticateResult(?\RegalWings\QbwcLaravel\ArrayType\ArrayOfString $authenticateResult = null): self
     {
         $this->authenticateResult = $authenticateResult;
-        
+
         return $this;
     }
 }

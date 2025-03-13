@@ -1,6 +1,6 @@
 <?php
 
-namespace AaronGRTech\QbwcLaravel\StructType\Queries;
+namespace RegalWings\QbwcLaravel\StructType\Queries;
 
 use DOMDocument;
 use WsdlToPhp\PackageBase\AbstractStructBase;
@@ -119,7 +119,7 @@ class QbxmlQuery extends AbstractStructBase
                     $parent->appendChild($element);
                 }
                 return;
-            } 
+            }
 
             $element = $xml->createElement($key);
 

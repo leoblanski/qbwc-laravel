@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AaronGRTech\QbwcLaravel\StructType;
+namespace RegalWings\QbwcLaravel\StructType;
 
 use InvalidArgumentException;
 use WsdlToPhp\PackageBase\AbstractStructBase;
@@ -98,7 +98,7 @@ class SendRequestXML extends AbstractStructBase
     /**
      * Set qbXMLMajorVers value
      * @param int $qbXMLMajorVers
-     * @return \AaronGRTech\QbwcLaravel\StructType\SendRequestXML
+     * @return \RegalWings\QbwcLaravel\StructType\SendRequestXML
      */
     public function setQbXMLMajorVers(int $qbXMLMajorVers): self
     {
@@ -107,7 +107,7 @@ class SendRequestXML extends AbstractStructBase
             throw new InvalidArgumentException(sprintf('Invalid value %s, please provide an integer value, %s given', var_export($qbXMLMajorVers, true), gettype($qbXMLMajorVers)), __LINE__);
         }
         $this->qbXMLMajorVers = $qbXMLMajorVers;
-        
+
         return $this;
     }
     /**
@@ -121,7 +121,7 @@ class SendRequestXML extends AbstractStructBase
     /**
      * Set qbXMLMinorVers value
      * @param int $qbXMLMinorVers
-     * @return \AaronGRTech\QbwcLaravel\StructType\SendRequestXML
+     * @return \RegalWings\QbwcLaravel\StructType\SendRequestXML
      */
     public function setQbXMLMinorVers(int $qbXMLMinorVers): self
     {
@@ -130,7 +130,7 @@ class SendRequestXML extends AbstractStructBase
             throw new InvalidArgumentException(sprintf('Invalid value %s, please provide an integer value, %s given', var_export($qbXMLMinorVers, true), gettype($qbXMLMinorVers)), __LINE__);
         }
         $this->qbXMLMinorVers = $qbXMLMinorVers;
-        
+
         return $this;
     }
     /**
@@ -144,7 +144,7 @@ class SendRequestXML extends AbstractStructBase
     /**
      * Set ticket value
      * @param string $ticket
-     * @return \AaronGRTech\QbwcLaravel\StructType\SendRequestXML
+     * @return \RegalWings\QbwcLaravel\StructType\SendRequestXML
      */
     public function setTicket(?string $ticket = null): self
     {
@@ -153,7 +153,7 @@ class SendRequestXML extends AbstractStructBase
             throw new InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($ticket, true), gettype($ticket)), __LINE__);
         }
         $this->ticket = $ticket;
-        
+
         return $this;
     }
     /**
@@ -167,7 +167,7 @@ class SendRequestXML extends AbstractStructBase
     /**
      * Set strHCPResponse value
      * @param string $strHCPResponse
-     * @return \AaronGRTech\QbwcLaravel\StructType\SendRequestXML
+     * @return \RegalWings\QbwcLaravel\StructType\SendRequestXML
      */
     public function setStrHCPResponse(?string $strHCPResponse = null): self
     {
@@ -176,7 +176,7 @@ class SendRequestXML extends AbstractStructBase
             throw new InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($strHCPResponse, true), gettype($strHCPResponse)), __LINE__);
         }
         $this->strHCPResponse = $strHCPResponse;
-        
+
         return $this;
     }
     /**
@@ -190,7 +190,7 @@ class SendRequestXML extends AbstractStructBase
     /**
      * Set strCompanyFileName value
      * @param string $strCompanyFileName
-     * @return \AaronGRTech\QbwcLaravel\StructType\SendRequestXML
+     * @return \RegalWings\QbwcLaravel\StructType\SendRequestXML
      */
     public function setStrCompanyFileName(?string $strCompanyFileName = null): self
     {
@@ -199,7 +199,7 @@ class SendRequestXML extends AbstractStructBase
             throw new InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($strCompanyFileName, true), gettype($strCompanyFileName)), __LINE__);
         }
         $this->strCompanyFileName = $strCompanyFileName;
-        
+
         return $this;
     }
     /**
@@ -213,7 +213,7 @@ class SendRequestXML extends AbstractStructBase
     /**
      * Set qbXMLCountry value
      * @param string $qbXMLCountry
-     * @return \AaronGRTech\QbwcLaravel\StructType\SendRequestXML
+     * @return \RegalWings\QbwcLaravel\StructType\SendRequestXML
      */
     public function setQbXMLCountry(?string $qbXMLCountry = null): self
     {
@@ -222,7 +222,7 @@ class SendRequestXML extends AbstractStructBase
             throw new InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($qbXMLCountry, true), gettype($qbXMLCountry)), __LINE__);
         }
         $this->qbXMLCountry = $qbXMLCountry;
-        
+
         return $this;
     }
 }

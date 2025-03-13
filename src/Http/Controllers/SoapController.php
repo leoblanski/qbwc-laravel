@@ -1,19 +1,19 @@
 <?php
 
-namespace AaronGRTech\QbwcLaravel\Http\Controllers;
+namespace RegalWings\QbwcLaravel\Http\Controllers;
 
-use AaronGRTech\QbwcLaravel\ArrayType\ArrayOfString;
-use AaronGRTech\QbwcLaravel\Services\QueueService;
-use AaronGRTech\QbwcLaravel\Services\SoapService;
-use AaronGRTech\QbwcLaravel\StructType\AuthenticateResponse;
-use AaronGRTech\QbwcLaravel\StructType\ClientVersionResponse;
-use AaronGRTech\QbwcLaravel\StructType\CloseConnectionResponse;
-use AaronGRTech\QbwcLaravel\StructType\ConnectionErrorResponse;
-use AaronGRTech\QbwcLaravel\StructType\GetLastErrorResponse;
-use AaronGRTech\QbwcLaravel\StructType\ReceiveResponseXMLResponse;
-use AaronGRTech\QbwcLaravel\StructType\SendRequestXMLResponse;
-use AaronGRTech\QbwcLaravel\StructType\ServerVersion;
-use AaronGRTech\QbwcLaravel\StructType\ServerVersionResponse;
+use RegalWings\QbwcLaravel\ArrayType\ArrayOfString;
+use RegalWings\QbwcLaravel\Services\QueueService;
+use RegalWings\QbwcLaravel\Services\SoapService;
+use RegalWings\QbwcLaravel\StructType\AuthenticateResponse;
+use RegalWings\QbwcLaravel\StructType\ClientVersionResponse;
+use RegalWings\QbwcLaravel\StructType\CloseConnectionResponse;
+use RegalWings\QbwcLaravel\StructType\ConnectionErrorResponse;
+use RegalWings\QbwcLaravel\StructType\GetLastErrorResponse;
+use RegalWings\QbwcLaravel\StructType\ReceiveResponseXMLResponse;
+use RegalWings\QbwcLaravel\StructType\SendRequestXMLResponse;
+use RegalWings\QbwcLaravel\StructType\ServerVersion;
+use RegalWings\QbwcLaravel\StructType\ServerVersionResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use SoapServer;
@@ -32,7 +32,7 @@ class SoapController extends Controller
     {
         $options = [
             'uri' => config('qbwc.routes.prefix'),
-            'classmap' => \AaronGRTech\QbwcLaravel\ClassMap::get(),
+            'classmap' => \RegalWings\QbwcLaravel\ClassMap::get(),
         ];
 
         $this->server = new SoapServer(config('qbwc.soap.wsdl'), $options);
@@ -165,7 +165,7 @@ class SoapController extends Controller
             }
 
             $task = $this->queueService->getCurrentTask();
-            
+
             if ($task && $task->iterator != 'Continue') {
                 $this->queueService->markTaskCompleted($task);
             }
@@ -208,7 +208,7 @@ class SoapController extends Controller
 
         try {
             $response = "Ticket: {$parameters->getTicket()}";
-            
+
             $this->queueService->markQueueFailed();
             $this->soapService->forgetCachedTicket();
 

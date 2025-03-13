@@ -1,12 +1,12 @@
 <?php
 
-namespace AaronGRTech\QbwcLaravel\Services;
+namespace RegalWings\QbwcLaravel\Services;
 
-use AaronGRTech\QbwcLaravel\Models\Queue;
-use AaronGRTech\QbwcLaravel\Models\Task;
-use AaronGRTech\QbwcLaravel\Models\TaskConfig;
-use AaronGRTech\QbwcLaravel\StructType\Queries\BillQuery;
-use AaronGRTech\QbwcLaravel\StructType\Queries\InvoiceQuery;
+use RegalWings\QbwcLaravel\Models\Queue;
+use RegalWings\QbwcLaravel\Models\Task;
+use RegalWings\QbwcLaravel\Models\TaskConfig;
+use RegalWings\QbwcLaravel\StructType\Queries\BillQuery;
+use RegalWings\QbwcLaravel\StructType\Queries\InvoiceQuery;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
@@ -46,9 +46,9 @@ class QueueService
 
             if ($this->queue->wasRecentlyCreated) {
                 $taskConfigs = TaskConfig::on('qbwc_queue')
-                                          ->where('queue_name', $this->queueName)
-                                          ->orderBy('order')
-                                          ->get();
+                    ->where('queue_name', $this->queueName)
+                    ->orderBy('order')
+                    ->get();
 
                 $this->queue->total_tasks = $taskConfigs->count();
                 $this->queue->save();
@@ -102,7 +102,7 @@ class QueueService
         $task = $this->getCurrentTask();
 
         if ($this->initialQueueSize > 0) {
-            
+
             $taskPercentage = 100 - (($remainingTasks / $this->initialQueueSize) * 100);
 
             if ($task && $task->iterator == 'Continue') {
@@ -113,7 +113,6 @@ class QueueService
             }
 
             return $taskPercentage;
-
         }
 
         return 100;
@@ -123,16 +122,16 @@ class QueueService
     {
         try {
             $lastQueue = Queue::on('qbwc_queue')
-                              ->where('name', $this->queueName)
-                              ->when($this->file, function ($query) {
-                                  return $query->where('file', $this->file);
-                              })
-                              ->where('initialized', false)
-                              ->where('tasks_completed', '>', 0)
-                              ->where('tasks_failed', '=', 0)
-                              ->whereNotNull('completed_at')
-                              ->orderBy('completed_at', 'desc')
-                              ->first();
+                ->where('name', $this->queueName)
+                ->when($this->file, function ($query) {
+                    return $query->where('file', $this->file);
+                })
+                ->where('initialized', false)
+                ->where('tasks_completed', '>', 0)
+                ->where('tasks_failed', '=', 0)
+                ->whereNotNull('completed_at')
+                ->orderBy('completed_at', 'desc')
+                ->first();
 
             return new Carbon($lastQueue?->initialized_at ?? $this->startOfDay);
         } catch (\Exception $e) {
@@ -192,7 +191,7 @@ class QueueService
                     }
 
                     $task->save();
-    
+
                     return new $taskClass($taskParams, null, $loopCount, $iterator, $iteratorId);
                 }
             }
@@ -223,7 +222,7 @@ class QueueService
                     $this->setEntityFilter($query, $value);
                     break;
             }
-        }        
+        }
 
         return $query;
     }
@@ -325,7 +324,7 @@ class QueueService
                 ->first();
 
             if ($task) {
-                if($task->iterator == 'Start') {
+                if ($task->iterator == 'Start') {
                     $task->iterator = 'Continue';
                     $task->iterator_id = $iteratorId;
                 }

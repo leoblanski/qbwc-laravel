@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AaronGRTech\QbwcLaravel\StructType;
+namespace RegalWings\QbwcLaravel\StructType;
 
 use InvalidArgumentException;
 use WsdlToPhp\PackageBase\AbstractStructBase;
@@ -54,7 +54,7 @@ class Authenticate extends AbstractStructBase
     /**
      * Set strUserName value
      * @param string $strUserName
-     * @return \AaronGRTech\QbwcLaravel\StructType\Authenticate
+     * @return \RegalWings\QbwcLaravel\StructType\Authenticate
      */
     public function setStrUserName(?string $strUserName = null): self
     {
@@ -63,7 +63,7 @@ class Authenticate extends AbstractStructBase
             throw new InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($strUserName, true), gettype($strUserName)), __LINE__);
         }
         $this->strUserName = $strUserName;
-        
+
         return $this;
     }
     /**
@@ -77,7 +77,7 @@ class Authenticate extends AbstractStructBase
     /**
      * Set strPassword value
      * @param string $strPassword
-     * @return \AaronGRTech\QbwcLaravel\StructType\Authenticate
+     * @return \RegalWings\QbwcLaravel\StructType\Authenticate
      */
     public function setStrPassword(?string $strPassword = null): self
     {
@@ -86,7 +86,7 @@ class Authenticate extends AbstractStructBase
             throw new InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($strPassword, true), gettype($strPassword)), __LINE__);
         }
         $this->strPassword = $strPassword;
-        
+
         return $this;
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AaronGRTech\QbwcLaravel\StructType;
+namespace RegalWings\QbwcLaravel\StructType;
 
 use InvalidArgumentException;
 use WsdlToPhp\PackageBase\AbstractStructBase;
@@ -43,7 +43,7 @@ class GetLastError extends AbstractStructBase
     /**
      * Set ticket value
      * @param string $ticket
-     * @return \AaronGRTech\QbwcLaravel\StructType\GetLastError
+     * @return \RegalWings\QbwcLaravel\StructType\GetLastError
      */
     public function setTicket(?string $ticket = null): self
     {
@@ -52,7 +52,7 @@ class GetLastError extends AbstractStructBase
             throw new InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($ticket, true), gettype($ticket)), __LINE__);
         }
         $this->ticket = $ticket;
-        
+
         return $this;
     }
 }

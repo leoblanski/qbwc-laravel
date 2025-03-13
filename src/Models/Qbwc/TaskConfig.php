@@ -1,6 +1,6 @@
 <?php
 
-namespace AaronGRTech\QbwcLaravel\Models;
+namespace RegalWings\QbwcLaravel\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AaronGRTech\QbwcLaravel\StructType;
+namespace RegalWings\QbwcLaravel\StructType;
 
 use InvalidArgumentException;
 use WsdlToPhp\PackageBase\AbstractStructBase;
@@ -43,7 +43,7 @@ class ServerVersionResponse extends AbstractStructBase
     /**
      * Set serverVersionResult value
      * @param string $serverVersionResult
-     * @return \AaronGRTech\QbwcLaravel\StructType\ServerVersionResponse
+     * @return \RegalWings\QbwcLaravel\StructType\ServerVersionResponse
      */
     public function setServerVersionResult(?string $serverVersionResult = null): self
     {
@@ -52,7 +52,7 @@ class ServerVersionResponse extends AbstractStructBase
             throw new InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($serverVersionResult, true), gettype($serverVersionResult)), __LINE__);
         }
         $this->serverVersionResult = $serverVersionResult;
-        
+
         return $this;
     }
 }

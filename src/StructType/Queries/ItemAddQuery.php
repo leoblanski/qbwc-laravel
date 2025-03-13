@@ -1,6 +1,6 @@
 <?php
 
-namespace AaronGRTech\QbwcLaravel\StructType\Queries;
+namespace RegalWings\QbwcLaravel\StructType\Queries;
 
 class ItemAddQuery extends QbxmlQuery
 {

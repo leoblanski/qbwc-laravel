@@ -1,6 +1,6 @@
 <?php
 
-namespace AaronGRTech\QbwcLaravel\Callbacks;
+namespace RegalWings\QbwcLaravel\Callbacks;
 
 abstract class QbwcCallback
 {

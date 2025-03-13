@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AaronGRTech\QbwcLaravel\StructType;
+namespace RegalWings\QbwcLaravel\StructType;
 
 use InvalidArgumentException;
 use WsdlToPhp\PackageBase\AbstractStructBase;
@@ -76,7 +76,7 @@ class ReceiveResponseXML extends AbstractStructBase
     /**
      * Set ticket value
      * @param string $ticket
-     * @return \AaronGRTech\QbwcLaravel\StructType\ReceiveResponseXML
+     * @return \RegalWings\QbwcLaravel\StructType\ReceiveResponseXML
      */
     public function setTicket(?string $ticket = null): self
     {
@@ -85,7 +85,7 @@ class ReceiveResponseXML extends AbstractStructBase
             throw new InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($ticket, true), gettype($ticket)), __LINE__);
         }
         $this->ticket = $ticket;
-        
+
         return $this;
     }
     /**
@@ -99,7 +99,7 @@ class ReceiveResponseXML extends AbstractStructBase
     /**
      * Set response value
      * @param string $response
-     * @return \AaronGRTech\QbwcLaravel\StructType\ReceiveResponseXML
+     * @return \RegalWings\QbwcLaravel\StructType\ReceiveResponseXML
      */
     public function setResponse(?string $response = null): self
     {
@@ -108,7 +108,7 @@ class ReceiveResponseXML extends AbstractStructBase
             throw new InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($response, true), gettype($response)), __LINE__);
         }
         $this->response = $response;
-        
+
         return $this;
     }
     /**
@@ -122,7 +122,7 @@ class ReceiveResponseXML extends AbstractStructBase
     /**
      * Set hresult value
      * @param string $hresult
-     * @return \AaronGRTech\QbwcLaravel\StructType\ReceiveResponseXML
+     * @return \RegalWings\QbwcLaravel\StructType\ReceiveResponseXML
      */
     public function setHresult(?string $hresult = null): self
     {
@@ -131,7 +131,7 @@ class ReceiveResponseXML extends AbstractStructBase
             throw new InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($hresult, true), gettype($hresult)), __LINE__);
         }
         $this->hresult = $hresult;
-        
+
         return $this;
     }
     /**
@@ -145,7 +145,7 @@ class ReceiveResponseXML extends AbstractStructBase
     /**
      * Set message value
      * @param string $message
-     * @return \AaronGRTech\QbwcLaravel\StructType\ReceiveResponseXML
+     * @return \RegalWings\QbwcLaravel\StructType\ReceiveResponseXML
      */
     public function setMessage(?string $message = null): self
     {
@@ -154,7 +154,7 @@ class ReceiveResponseXML extends AbstractStructBase
             throw new InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($message, true), gettype($message)), __LINE__);
         }
         $this->message = $message;
-        
+
         return $this;
     }
 }

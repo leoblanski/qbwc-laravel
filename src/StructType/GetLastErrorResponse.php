@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AaronGRTech\QbwcLaravel\StructType;
+namespace RegalWings\QbwcLaravel\StructType;
 
 use InvalidArgumentException;
 use WsdlToPhp\PackageBase\AbstractStructBase;
@@ -43,7 +43,7 @@ class GetLastErrorResponse extends AbstractStructBase
     /**
      * Set getLastErrorResult value
      * @param string $getLastErrorResult
-     * @return \AaronGRTech\QbwcLaravel\StructType\GetLastErrorResponse
+     * @return \RegalWings\QbwcLaravel\StructType\GetLastErrorResponse
      */
     public function setGetLastErrorResult(?string $getLastErrorResult = null): self
     {
@@ -52,7 +52,7 @@ class GetLastErrorResponse extends AbstractStructBase
             throw new InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($getLastErrorResult, true), gettype($getLastErrorResult)), __LINE__);
         }
         $this->getLastErrorResult = $getLastErrorResult;
-        
+
         return $this;
     }
 }

@@ -1,11 +1,11 @@
 <?php
 
-namespace AaronGRTech\QbwcLaravel\Services;
+namespace RegalWings\QbwcLaravel\Services;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
-use AaronGRTech\QbwcLaravel\StructType\Queries\QbxmlQuery;
+use RegalWings\QbwcLaravel\StructType\Queries\QbxmlQuery;
 
 class SoapService
 {
@@ -52,7 +52,7 @@ class SoapService
     public function handleInvalidTicket($responseClass, $responseParams = null)
     {
         Log::error("Invalid ticket");
-        return $responseParams ? 
+        return $responseParams ?
             new $responseClass($responseParams) :
             $this->sendEmptyResponse($responseClass);
     }
